@@ -1,0 +1,49 @@
+﻿using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+[assembly: AssemblyTitle("NavUtilLib")]
+[assembly: AssemblyDescription("A library of tools for land based navigation in Kerbal Space Program")]
+[assembly: AssemblyConfiguration("")]
+<<<<<<< HEAD:NavUtilities continued/NavUtilLib/Properties/AssemblyInfo.cs
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("NavUtilLib")]
+[assembly: AssemblyCopyright("Copyright ©  2014-2018")]
+[assembly: AssemblyTrademark("")]
+=======
+[assembly: AssemblyCompany(NavInstruments.LegalMamboJambo.Company)]
+[assembly: AssemblyProduct(NavInstruments.LegalMamboJambo.Product)]
+[assembly: AssemblyCopyright(NavInstruments.LegalMamboJambo.Copyight)]
+[assembly: AssemblyTrademark(NavInstruments.LegalMamboJambo.Trademark)]
+>>>>>>> ef092d8b7e46999dd909b3b83a8a7d42321a46dc:Source/NavUtilLib/Properties/AssemblyInfo.cs
+[assembly: AssemblyCulture("")]
+
+// Setting ComVisible to false makes the types in this assembly not visible 
+// to COM components.  If you need to access a type in this assembly from 
+// COM, set the ComVisible attribute to true on that type.
+[assembly: ComVisible(false)]
+
+// The following GUID is for the ID of the typelib if this project is exposed to COM
+[assembly: Guid("40af8787-49b9-4c0d-91f3-211e68a3a5bb")]
+
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version 
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Build and Revision Numbers 
+// by using the '*' as shown below:
+// [assembly: AssemblyVersion("1.0.*")]
+<<<<<<< HEAD:NavUtilities continued/NavUtilLib/Properties/AssemblyInfo.cs
+[assembly: AssemblyVersion("0.7.2")]
+//[assembly: AssemblyFileVersion("0.4.*")]
+=======
+[assembly: AssemblyVersion(NavInstruments.Version.Number)]
+[assembly: AssemblyFileVersion(NavInstruments.Version.Number)]
+[assembly: KSPAssemblyDependency("KSPe", 2, 1)]
+>>>>>>> ef092d8b7e46999dd909b3b83a8a7d42321a46dc:Source/NavUtilLib/Properties/AssemblyInfo.cs
