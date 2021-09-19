@@ -6,6 +6,7 @@ using KSP;
 using UnityEngine;
 using NavInstruments.NavUtilLib.GlobalVariables;
 using NavInstruments.NavUtilLib;
+using static NavUtilLib.RegisterToolbar;
 
 namespace NavInstruments.NavUtilRPM
 {
@@ -13,7 +14,7 @@ namespace NavInstruments.NavUtilRPM
     {
         new public void OnAwake()
         {
-            Log.detail("NavUtils: ModuleNavUtilsInfo.OnAwake()");
+            Log.Info("NavUtils: ModuleNavUtilsInfo.OnAwake()");
 
             //load settings from config
             NavUtilLib.ConfigLoader.LoadSettings();
@@ -31,7 +32,7 @@ namespace NavInstruments.NavUtilRPM
         //selectedGlideSlope, bearing, dme, elevationAngle, locDeviation, gsDeviation, runwayHeading
         public object NavInfo(string s)
         {
-            Log.detail("NavUtils: ModuleNavUtilsInfo.NavInfo() " + s);
+            Log.Info("NavUtils: ModuleNavUtilsInfo.NavInfo() " + s);
 
             FlightData.updateNavigationData();
 

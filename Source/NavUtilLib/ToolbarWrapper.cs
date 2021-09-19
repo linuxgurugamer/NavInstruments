@@ -1,3 +1,4 @@
+#if false
 /*
 Copyright (c) 2013-2016, Maik Schreiber
 All rights reserved.
@@ -249,7 +250,7 @@ namespace NavInstruments.NavUtilLib {
 		/// <code>
 		/// IButton button = ...
 		/// button.OnClick += (e) => {
-		///     Log.dbg("button clicked, mouseButton: {0}", e.MouseButton);
+		///     Log.Debug("button clicked, mouseButton: {0}", e.MouseButton);
 		/// };
 		/// </code>
 		/// </example>
@@ -262,7 +263,7 @@ namespace NavInstruments.NavUtilLib {
 		/// <code>
 		/// IButton button = ...
 		/// button.OnMouseEnter += (e) => {
-		///     Log.dbg("mouse entered button");
+		///     Log.Debug("mouse entered button");
 		/// };
 		/// </code>
 		/// </example>
@@ -275,7 +276,7 @@ namespace NavInstruments.NavUtilLib {
 		/// <code>
 		/// IButton button = ...
 		/// button.OnMouseLeave += (e) => {
-		///     Log.dbg("mouse left button");
+		///     Log.Debug("mouse left button");
 		/// };
 		/// </code>
 		/// </example>
@@ -786,3 +787,4 @@ namespace NavInstruments.NavUtilLib {
 
 	#endregion
 }
+#endif

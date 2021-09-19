@@ -1,40 +1,55 @@
 ﻿//NavUtilities by kujuman, © 2014. All Rights Reserved.
 
 using System;
+using static NavUtilLib.RegisterToolbar;
 
 namespace NavInstruments.NavUtilLib
 {
     public static class ConfigLoader
     {
-        private static readonly KSPe.IO.Data.ConfigNode SETTINGS = KSPe.IO.Data.ConfigNode.ForType<KSPeHack>("NavUtilSettings", "settings.cfg");
-        private static readonly KSPe.IO.Data.ConfigNode CUSTOM_RUNWAYS = KSPe.IO.Data.ConfigNode.ForType<KSPeHack>("Runways", "customRunways.cfg");
+        public const string DATADIR = "GameData/NavInstruments/PluginData/";
+        public const string SETTINGS_FILE = "settings.cfg";
+        public const string DEFAULTRUNWAYS_FILE = "defaultRunways.cfg";
+        public const string CUSTOMRUNWAYS_FILE = "customRunways.cfg";
+
+        //private static readonly KSPe.IO.Data.ConfigNode SETTINGS = KSPe.IO.Data.ConfigNode.ForType<KSPeHack>("NavUtilSettings", "settings.cfg");
+        //private static readonly KSPe.IO.Data.ConfigNode CUSTOM_RUNWAYS = KSPe.IO.Data.ConfigNode.ForType<KSPeHack>("Runways", "customRunways.cfg");
 
         public static System.Collections.Generic.List<Runway> GetRunwayListFromConfig()
         {
             System.Collections.Generic.List<Runway> r = new System.Collections.Generic.List<Runway>();
-            
-            foreach (ConfigNode node in GameDatabase.Instance.GetConfigNodes("Runway"))
-                r.Add(CreateRunwayFromNode(node));
-            
-            foreach (ConfigNode node in CUSTOM_RUNWAYS.Node.GetNodes("Runway"))
-                r.Add(CreateRunwayFromNode(node));
-                
+
+            //foreach (ConfigNode node in GameDatabase.Instance.GetConfigNodes("Runway"))
+            //    r.Add(CreateRunwayFromNode(node));
+
+            ConfigNode defaultRunways = ConfigNode.Load(DATADIR + DEFAULTRUNWAYS_FILE);
+            if (defaultRunways != null)
+            {
+                foreach (ConfigNode node in defaultRunways.GetNodes("Runway"))
+                    r.Add(CreateRunwayFromNode(node));
+            }
+            ConfigNode customRunways = ConfigNode.Load(DATADIR + CUSTOMRUNWAYS_FILE);
+            if (customRunways != null)
+            {
+                foreach (ConfigNode node in customRunways.GetNodes("Runway"))
+                    r.Add(CreateRunwayFromNode(node));
+            }
             return r;
         }
 
         private static Runway CreateRunwayFromNode(ConfigNode node)
         {
-            Log.detail("NavUtil: Found Runway Node");
+            Log.Info("NavUtil: Found Runway Node");
 
             try
             {
                 Runway rwy = Runway.createFrom(node);
-                Log.detail("NavUtil: Found " + rwy.ident);              
+                Log.Info("NavUtil: Found " + rwy.ident);
                 return rwy;
             }
             catch (Exception)
             {
-                Log.detail("NavUtil: Error loading runway");
+                Log.Info("NavUtil: Error loading runway");
                 throw;
             }
         }
@@ -43,9 +58,32 @@ namespace NavInstruments.NavUtilLib
         {
             ConfigNode runways = new ConfigNode();
             foreach (Runway r in runwayList)
-                runways.AddNode(r.ToConfigNode(true));
+            {
+                ConfigNode rN = new ConfigNode();
 
-            CUSTOM_RUNWAYS.Save(runways);
+                rN.name = "NavUtilRunway";
+
+                rN.AddValue("custom", true);
+
+                rN.AddValue("ident", r.ident);
+                rN.AddValue("shortID", r.shortID);
+                rN.AddValue("hdg", r.hdg);
+                rN.AddValue("body", r.body);
+                rN.AddValue("altMSL", r.altMSL);
+                rN.AddValue("gsLatitude", r.gsLatitude);
+                rN.AddValue("gsLongitude", r.gsLongitude);
+                rN.AddValue("locLatitude", r.locLatitude);
+                rN.AddValue("locLongitude", r.locLongitude);
+
+                rN.AddValue("outerMarkerDist", r.outerMarkerDist);
+                rN.AddValue("middleMarkerDist", r.middleMarkerDist);
+                rN.AddValue("innerMarkerDist", r.innerMarkerDist);
+
+                runways.AddNode(rN);
+            }
+
+            runways.Save(DATADIR + CUSTOMRUNWAYS_FILE);
+
         }
 
         public static System.Collections.Generic.List<float> GetGlideslopeListFromConfig()
@@ -53,7 +91,7 @@ namespace NavInstruments.NavUtilLib
             System.Collections.Generic.List<float> gsList = new System.Collections.Generic.List<float>();
             foreach (ConfigNode node in GameDatabase.Instance.GetConfigNodes("Glideslope"))
             {
-				float gs = float.Parse(node.GetValue("glideslope"));
+                float gs = float.Parse(node.GetValue("glideslope"));
                 gsList.Add(gs);
             }
             return gsList;
@@ -61,53 +99,56 @@ namespace NavInstruments.NavUtilLib
 
         public static void LoadSettings()
         {
-            Log.info("NavUtil: Loading Settings");
-            if (SETTINGS.IsLoadable) SETTINGS.Load();
-            
-            KSPe.ConfigNodeWithSteroids settings = SETTINGS.NodeWithSteroids;
-            GlobalVariables.Settings.hsiGUIscale = settings.GetValue<float>("guiScale", 0.5f);
-            GlobalVariables.Settings.enableFineLoc = settings.GetValue<bool>("enableFineLoc", true);
-            GlobalVariables.Settings.enableWindowsInIVA = settings.GetValue<bool>("enableWindowsInIVA",true);
-            GlobalVariables.Settings.loadCustom_rwyCFG = settings.GetValue<bool>("loadCustom_rwyCFG", true);
-            GlobalVariables.Settings.useBlizzy78ToolBar = settings.GetValue<bool>("useBlizzy78ToolBar", false);
-            GlobalVariables.Settings.hsiPosition.x = settings.GetValue<float>("hsiPositionX", 220f);
-            GlobalVariables.Settings.hsiPosition.y = settings.GetValue<float>("hsiPositionY", 500f);
-            //GlobalVariables.Settings.hsiPosition.width = settings.GetValue<float>("hsiPositionWidth",???f);
-            //GlobalVariables.Settings.hsiPosition.height = settings.GetValue<float>("hsiPositionHeight", ???f);
-            GlobalVariables.Settings.rwyEditorGUI.x = settings.GetValue<float>("rwyEditorGUIX", 387f);
-            GlobalVariables.Settings.rwyEditorGUI.y = settings.GetValue<float>("rwyEditorGUIY", 132f);
-            //GlobalVariables.Settings.rwyEditorGUI.width = settings.GetValue<float>("rwyEditorGUIWidth", ???f);
-            //GlobalVariables.Settings.rwyEditorGUI.height = settings.GetValue<float>("rwyEditorGUIHeight", ???f);
-            GlobalVariables.Settings.settingsGUI.x = settings.GetValue<float>("settingsGUIX", 75f);
-            GlobalVariables.Settings.settingsGUI.y = settings.GetValue<float>("settingsGUIY", 75f);
-            GlobalVariables.Settings.hideNavBallWaypoint = settings.GetValue<bool>("hideNavBallWaypoint", false);
-            //GlobalVariables.Settings.settingsGUI.width = settings.GetValue<float>("settingsGUIWidth", ???f);
-            //GlobalVariables.Settings.settingsGUI.height = settings.GetValue<float>("settingsGUIHeight", ???f);
+            Log.Info("NavUtil: Loading Settings");
+            //if (SETTINGS.IsLoadable) SETTINGS.Load();
+            ConfigNode settings = ConfigNode.Load(DATADIR + SETTINGS_FILE);
+            if (settings != null)
             {
+                //KSPe.ConfigNodeWithSteroids settings = SETTINGS.NodeWithSteroids;
+                GlobalVariables.Settings.hsiGUIscale = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "guiScale", 0.5f);
+                GlobalVariables.Settings.enableFineLoc = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "enableFineLoc", true);
+                GlobalVariables.Settings.enableWindowsInIVA = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "enableWindowsInIVA", true);
+                GlobalVariables.Settings.loadCustom_rwyCFG = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "loadCustom_rwyCFG", true);
+                GlobalVariables.Settings.useBlizzy78ToolBar = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "useBlizzy78ToolBar", false);
+                GlobalVariables.Settings.hsiPosition.x = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "hsiPositionX", 220f);
+                GlobalVariables.Settings.hsiPosition.y = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "hsiPositionY", 500f);
+                //GlobalVariables.Settings.hsiPosition.width = settings.GetValue<float>("hsiPositionWidth",???f);
+                //GlobalVariables.Settings.hsiPosition.height = settings.GetValue<float>("hsiPositionHeight", ???f);
+                GlobalVariables.Settings.rwyEditorGUI.x = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "rwyEditorGUIX", 387f);
+                GlobalVariables.Settings.rwyEditorGUI.y = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "rwyEditorGUIY", 132f);
+                //GlobalVariables.Settings.rwyEditorGUI.width = settings.GetValue<float>("rwyEditorGUIWidth", ???f);
+                //GlobalVariables.Settings.rwyEditorGUI.height = settings.GetValue<float>("rwyEditorGUIHeight", ???f);
+                GlobalVariables.Settings.settingsGUI.x = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "settingsGUIX", 75f);
+                GlobalVariables.Settings.settingsGUI.y = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "settingsGUIY", 75f);
+                GlobalVariables.Settings.hideNavBallWaypoint = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "hideNavBallWaypoint", false);
+                //GlobalVariables.Settings.settingsGUI.width = settings.GetValue<float>("settingsGUIWidth", ???f);
+                //GlobalVariables.Settings.settingsGUI.height = settings.GetValue<float>("settingsGUIHeight", ???f);
+                {
 #if DEBUG
-                bool debugMode = settings.GetValue<bool>("debug", true);
+                    bool debugMode = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "debug", true);
 #else
-                bool debugMode = settings.GetValue<bool>("debug", false);
-#endif                
-                Log.debuglevel = debugMode ? 5 : 3;
+                bool debugMode = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings,"debug", false);
+#endif
+                    Log.SetLevel(debugMode ? KSP_Log.Log.LEVEL.INFO : KSP_Log.Log.LEVEL.ERROR);
+                }
             }
         }
 
         public static void SaveSettings()
         {
-            Log.info("NavUtil: Saving Settings");
-            SETTINGS.Clear();
-            
-            ConfigNode sN = SETTINGS.Node;
+            Log.Info("NavUtil: Saving Settings");
+            //SETTINGS.Clear();
+
+            ConfigNode sN = new ConfigNode();
 
             sN.AddValue("guiScale", GlobalVariables.Settings.hsiGUIscale);
             sN.AddValue("enableFineLoc", GlobalVariables.Settings.enableFineLoc);
             sN.AddValue("enableWindowsInIVA", GlobalVariables.Settings.enableWindowsInIVA);
             sN.AddValue("loadCustom_rwyCFG", GlobalVariables.Settings.loadCustom_rwyCFG);
-			sN.AddValue("hideNavBallWaypoint", GlobalVariables.Settings.hideNavBallWaypoint);
+            sN.AddValue("hideNavBallWaypoint", GlobalVariables.Settings.hideNavBallWaypoint);
             sN.AddValue("useBlizzy78ToolBar", GlobalVariables.Settings.useBlizzy78ToolBar);
 
-			sN.AddValue("hsiPositionX", GlobalVariables.Settings.hsiPosition.x);
+            sN.AddValue("hsiPositionX", GlobalVariables.Settings.hsiPosition.x);
             sN.AddValue("hsiPositionY", GlobalVariables.Settings.hsiPosition.y);
             //sN.AddValue("hsiPositionWidth", GlobalVariables.Settings.hsiPosition.width);
             //sN.AddValue("hsiPositionHeight", GlobalVariables.Settings.hsiPosition.height);
@@ -119,9 +160,9 @@ namespace NavInstruments.NavUtilLib
             sN.AddValue("settingsGUIY", GlobalVariables.Settings.settingsGUI.y);
             //sN.AddValue("settingsGUIWidth", GlobalVariables.Settings.settingsGUI.width);
             //sN.AddValue("settingsGUIHeight", GlobalVariables.Settings.settingsGUI.height);
-            sN.AddValue("debug", Log.debuglevel > 3);
+            sN.AddValue("debug", Log.GetLogLevel() > KSP_Log.Log.LEVEL.INFO);
 
-            SETTINGS.Save("NavUtil Setting File");
+            sN.Save(DATADIR + SETTINGS_FILE);
         }
     }
 }

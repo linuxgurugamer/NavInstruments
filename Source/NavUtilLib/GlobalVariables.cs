@@ -5,6 +5,7 @@ using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 using FinePrint;
+using static NavUtilLib.RegisterToolbar;
 
 namespace NavInstruments.NavUtilLib
 {
@@ -65,7 +66,7 @@ namespace NavInstruments.NavUtilLib
 
             public static void loadNavAids()
             {
-                Log.dbg("NavUtil: Loading NavAid database...");
+                Log.Debug("NavUtil: Loading NavAid database...");
                 FlightData.allRunways.Clear();
                 FlightData.allRunways = ConfigLoader.GetRunwayListFromConfig();
                 FlightData.gsList.Clear();
@@ -97,16 +98,16 @@ namespace NavInstruments.NavUtilLib
                         if ((f.Name.EndsWith("_rwy.cfg") && loadCustom_rwyCFG)|| f.Name.EndsWith(".rwy"))
                         {
 
-                            if (enableDebugging)  Log.detail("NavUtil: found file " + f.Name.ToString());
+                            if (enableDebugging)  Log.Info("NavUtil: found file " + f.Name.ToString());
 
                             if (f.Name == "custom.rwy" || (f.Name == "custom_rwy.cfg" && GlobalVariables.Settings.loadCustom_rwyCFG))
                             {
                                 FlightData.customRunways.AddRange(NavUtilLib.ConfigLoader.GetRunwayListFromConfig("GameData/KerbalScienceFoundation/NavInstruments/Runways/" + f.Name));
-                                if (enableDebugging)  Log.detail("NavUtil: Found " + f.Name + " with " + FlightData.customRunways.Count + " runway definitions");
+                                if (enableDebugging)  Log.Info("NavUtil: Found " + f.Name + " with " + FlightData.customRunways.Count + " runway definitions");
 
                             }
 
-                            if (enableDebugging) Log.detail("NavUtil: Found " + f.Name);
+                            if (enableDebugging) Log.Info("NavUtil: Found " + f.Name);
 
                             FlightData.rwyList.AddRange(NavUtilLib.ConfigLoader.GetRunwayListFromConfig("GameData/KerbalScienceFoundation/NavInstruments/Runways/" + f.Name));
                             //! FlightData.gsList.AddRange(NavUtilLib.ConfigLoader.GetGlideslopeListFromConfig("GameData/KerbalScienceFoundation/NavInstruments/Runways/" + f.Name));
@@ -286,7 +287,7 @@ namespace NavInstruments.NavUtilLib
 
             public static void loadMaterials()
             {
-                Log.detail("NavUtilLib: Updating materials...");
+                Log.Info("NavUtilLib: Updating materials...");
 
 				Materials.Instance.overlay          = NavUtilGraphics.loadMaterial("hsi_overlay", 640, 640);
 				Materials.Instance.pointer          = NavUtilGraphics.loadMaterial("hsi_gs_pointer", 640, 24);
@@ -328,7 +329,7 @@ namespace NavInstruments.NavUtilLib
 
             private Audio()
             {
-                Log.detail("InitializingAudio...");
+                Log.Info("InitializingAudio...");
 
                 audioplayer = new GameObject();
                 markerAudio = new AudioSource();
@@ -351,8 +352,8 @@ namespace NavInstruments.NavUtilLib
                 }
                 catch (Exception e)
                 {
-                    Log.err("Error Loading Audio");
-                    Log.ex(this, e);
+                    Log.Error("Error Loading Audio");
+                    Log.Exception("AudioSource", e);
                 }
 
                 isLoaded = true;
@@ -360,34 +361,37 @@ namespace NavInstruments.NavUtilLib
 
             public void PlayClick()
             {
-                Log.detail("Click!");
+                Log.Info("Click!");
                 this.markerAudio.PlayOneShot(this.audio_click, 0.5f);
 			}
 
 			public void PlayOuter()
             {
-                Log.detail("DME outer");
+                Log.Info("DME outer");
                 this.markerAudio.PlayOneShot(this.audio_outer, 0.8f);
 				this.isPlaying = true;
 			}
 
 			public void PlayMiddle()
             {
-                Log.detail("DME middle");
+                Log.Info("DME middle");
                 this.markerAudio.PlayOneShot(this.audio_middle, 0.5f);
 				this.isPlaying = true;
 			}
 
 			public void PlayInner()
             {
-                Log.detail("DME inner");
+                Log.Info("DME inner");
                 this.markerAudio.PlayOneShot(this.audio_inner, 0.5f);
 				this.isPlaying = true;
 			}
 
+            public const string MODDIR = "NavInstruments";
             private AudioClip getAudio(string clipName) {
-                string path = KSPe.GameDB.Asset<KSPeHack>.Solve("Audio", clipName);
-                Log.dbg("Getting {0} from {1}", clipName, path);
+                //string path = KSPe.GameDB.Asset<KSPeHack>.Solve("Audio", clipName);
+
+                string path = MODDIR;
+                Log.Debug("Getting "+clipName+" from "+ path);
                 return GameDatabase.Instance.GetAudioClip(path);
             }
 

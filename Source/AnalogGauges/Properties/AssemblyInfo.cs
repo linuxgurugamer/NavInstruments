@@ -33,6 +33,3 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion(NavInstruments.Version.Number)]
-[assembly: AssemblyFileVersion(NavInstruments.Version.Number)]
-[assembly: KSPAssemblyDependency("KSPe", 2, 1)]

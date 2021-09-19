@@ -1,8 +1,11 @@
 ﻿//NavUtilities by kujuman, © 2014. All Rights Reserved.
 
 using UnityEngine;
-using Asset = KSPe.IO.Asset<NavInstruments.KSPeHack>;
+//using Asset = KSPe.IO.Asset<NavInstruments.KSPeHack>;
 using var = NavInstruments.NavUtilLib.GlobalVariables;
+using ToolbarControl_NS;
+using static NavUtilLib.RegisterToolbar;
+using ClickThroughFix;
 
 namespace NavInstruments
 { 
@@ -16,7 +19,7 @@ namespace NavInstruments.NavUtilLib
     {
         private void OnGUI()
         {
-            //Log.detail("NavUtils: OnGUI()");
+            //Log.Info("NavUtils: OnGUI()");
 
 
             if (var.Settings.isKSPGUIActive) // will hide GUI is F2 is pressed
@@ -31,9 +34,9 @@ namespace NavInstruments.NavUtilLib
 
         //this class is to help load textures via GameDatabase since we cannot use static classes
 
-        NavUtilLibApp app;
+        //NavUtilLibApp app;
 
-        KSP.UI.Screens.ApplicationLauncherButton appButton;
+        //KSP.UI.Screens.ApplicationLauncherButton appButton;
 
         public bool isHovering = false;
 
@@ -61,7 +64,11 @@ namespace NavInstruments.NavUtilLib
 
 
 
-		private IButton toolbarButton = null;
+        //private IButton toolbarButton = null;
+
+        ToolbarControl toolbarControl;
+
+
         private Rect windowPosition;
         private RenderTexture rt;
 
@@ -74,13 +81,13 @@ namespace NavInstruments.NavUtilLib
 
         public void displayHSI()
         {
-            Log.dbg("NavUtils: NavUtilLibApp.displayHSI()");
+            Log.Debug("NavUtils: NavUtilLibApp.displayHSI()");
 
             if (!var.Settings.hsiState)
             {
                 Activate(true);
                 var.Settings.hsiState = true;
-                Log.dbg("NavUtils: hsiState = " + var.Settings.hsiState);
+                Log.Debug("NavUtils: hsiState = " + var.Settings.hsiState);
             }
             else
             {
@@ -88,7 +95,7 @@ namespace NavInstruments.NavUtilLib
 
                 var.Settings.hsiState = false;
 
-                Log.dbg("NavUtils: hsiState = " + var.Settings.hsiState);
+                Log.Debug("NavUtils: hsiState = " + var.Settings.hsiState);
             }
         }
 
@@ -96,14 +103,14 @@ namespace NavInstruments.NavUtilLib
 
 		public void Activate(bool state)
 		{
-            Log.dbg("NavUtils: NavUtilLibApp.Activate()");
+            Log.Debug("NavUtils: NavUtilLibApp.Activate()");
 
             if (state)
             {
                 rt = new RenderTexture(640, 640, 24, RenderTextureFormat.ARGB32);
                 rt.Create();
 
-                Log.dbg("NavUtil: Starting systems...");
+                Log.Debug("NavUtil: Starting systems...");
                 if (!var.Settings.navAidsIsLoaded)
                     var.Settings.loadNavAids();
 
@@ -118,7 +125,7 @@ namespace NavInstruments.NavUtilLib
                 windowPosition.y = var.Settings.hsiPosition.y;
 
 
-                Log.dbg("NavUtil: Systems started successfully!");
+                Log.Debug("NavUtil: Systems started successfully!");
             }
             else
             {
@@ -133,9 +140,9 @@ namespace NavInstruments.NavUtilLib
 
         private void OnDraw()
         {
-            Log.dbg("NavUtils: NavUtilLibApp.OnDraw()");
+            Log.Debug("NavUtils: NavUtilLibApp.OnDraw()");
 
-            Log.dbg("HSI: OnDraw()");
+            Log.Debug("HSI: OnDraw()");
             if (CameraManager.Instance.currentCameraMode == CameraManager.CameraMode.Flight || ((CameraManager.Instance.currentCameraMode == CameraManager.CameraMode.Internal || CameraManager.Instance.currentCameraMode == CameraManager.CameraMode.IVA) && GlobalVariables.Settings.enableWindowsInIVA))
             {
                 if ((windowPosition.xMin + windowPosition.width) < 20) windowPosition.xMin = 20 - windowPosition.width;
@@ -149,14 +156,14 @@ namespace NavInstruments.NavUtilLib
                      (int)(var.Settings.hsiPosition.height * var.Settings.hsiGUIscale)
                      );
 
-                windowPosition = GUI.Window(-471466245, windowPosition, OnWindow, "Horizontal Situation Indicator");
+                windowPosition = ClickThruBlocker.GUIWindow(-471466245, windowPosition, OnWindow, "Horizontal Situation Indicator");
             }
-            Log.dbg("{0}", windowPosition);
+            Log.Debug( windowPosition.ToString());
         }
 
         private void DrawGauge(RenderTexture screen)
         {
-            Log.dbg("NavUtils: NavUtilLibApp.DrawGauge()");
+            Log.Debug("NavUtils: NavUtilLibApp.DrawGauge()");
 
             var.FlightData.updateNavigationData();
 
@@ -191,9 +198,9 @@ namespace NavInstruments.NavUtilLib
 
         private void OnWindow(int WindowID)
         {
-            Log.dbg("NavUtils: NavUtilLibApp.OnWindow()");
+            Log.Debug("NavUtils: NavUtilLibApp.OnWindow()");
 
-            Log.dbg("HSI: OnWindow()");
+            Log.Debug("HSI: OnWindow()");
 
 
 
@@ -215,8 +222,9 @@ namespace NavInstruments.NavUtilLib
             if (GUI.Button(closeBtn, new GUIContent("CloseBtn", "closeOn")))
             {
                 //displayHSI();
-                Log.dbg("CloseHSI");
-                appButton.SetFalse(true);
+                Log.Debug("CloseHSI");
+                //appButton.SetFalse(true);
+                toolbarControl.SetFalse(true);
                 //goto CloseWindow;
             }
 
@@ -278,10 +286,20 @@ namespace NavInstruments.NavUtilLib
         }
 
 
+        internal const string MODID = "NavInstruments";
+        internal const string MODNAME = "NavInstruments";
 
+        public const string DATADIR = "GameData/NavInstruments/PluginData/";
+        public const string MODDIR = "NavInstruments/";
+        public const string TOOLBARDIR = "PluginData/Toolbar/";
+
+#if false
         void AddButton()
         {
-			if (KSP.UI.Screens.ApplicationLauncher.Ready) {
+            Texture2D tex = new Texture2D(2, 2);
+            ToolbarControl.LoadImageFromFile(ref tex, DATADIR + TOOLBARDIR + "toolbarButton3838");
+
+            if (KSP.UI.Screens.ApplicationLauncher.Ready) {
 				appButton = KSP.UI.Screens.ApplicationLauncher.Instance.AddModApplication(
 					onAppLaunchToggleOn,
 					onAppLaunchToggleOff,
@@ -290,27 +308,46 @@ namespace NavInstruments.NavUtilLib
 					onAppLaunchEnable,
 					onAppLaunchDisable,
 					KSP.UI.Screens.ApplicationLauncher.AppScenes.FLIGHT,
-                    Asset.Texture2D.LoadFromFile("Toolbar", "toolbarButton3838")
+                    tex
 				);
 				app = this;
 			}
         }
-
+#endif
 
 
         void Awake()
 		{
-            Log.dbg("NavUtils: NavUtilLibApp.Awake()");
+            Log.Debug("NavUtils: NavUtilLibApp.Awake()");
 
             //load settings to config
             ConfigLoader.LoadSettings();
 
-            Log.dbg("NavUtil: useBlizzy? " + var.Settings.useBlizzy78ToolBar);
+            Log.Debug("NavUtil: useBlizzy? " + var.Settings.useBlizzy78ToolBar);
 
-			if (var.Settings.useBlizzy78ToolBar && ToolbarManager.ToolbarAvailable) {
-				IToolbarManager toolbar = ToolbarManager.Instance;
+            toolbarControl = gameObject.AddComponent<ToolbarControl>();
+            toolbarControl.AddToAllToolbars(onAppLaunchToggleOn,
+                    onAppLaunchToggleOff,
+                    onAppLaunchHoverOn,
+                    onAppLaunchHoverOff,
+                    onAppLaunchEnable,
+                    onAppLaunchDisable,
+
+                KSP.UI.Screens.ApplicationLauncher.AppScenes.FLIGHT,
+                MODID,
+                "NavLibButton",
+                MODDIR + TOOLBARDIR + "toolbarButton3838",
+                MODDIR + TOOLBARDIR + "toolbarButton",
+                MODNAME
+            );
+            //app = this;
+
+#if false
+            if (var.Settings.useBlizzy78ToolBar && ToolbarManager.ToolbarAvailable) {
+
+                IToolbarManager toolbar = ToolbarManager.Instance;
 				toolbarButton = toolbar.add("NavUtilities", "NavUtilButton");
-				toolbarButton.TexturePath = KSPe.IO.File<KSPeHack>.Asset.Solve("Toolbar/toolbarButton.png");
+				toolbarButton.TexturePath = DATADIR + TOOLBARDIR + "toolbarButton";
 				toolbarButton.OnClick += (clickEvent => {
 					isHovering = true;
 					onAppLaunchToggleOn();
@@ -318,16 +355,17 @@ namespace NavInstruments.NavUtilLib
 				toolbarButton.Visible = true;
 				toolbarButton.ToolTip = "NavUtilities HSI / Hold Alt to open settings";
 			} else {
+#endif
                 //GameEvents.onGUIApplicationLauncherReady.Add(OnGUIReady);
 
-                if (appButton == null)
-                GameEvents.onGUIApplicationLauncherReady.Add(AddButton);
+                //if (appButton == null)
+                //GameEvents.onGUIApplicationLauncherReady.Add(AddButton);
                 GameEvents.onGUIApplicationLauncherUnreadifying.Add(onDestroy);
                 GameEvents.onGameSceneLoadRequested.Add(onDestroy);
 
                 GameEvents.onShowUI.Add(ShowGUI);
                 GameEvents.onHideUI.Add(HideGUI);
-            }
+            //}
 
 
 
@@ -390,13 +428,15 @@ namespace NavInstruments.NavUtilLib
 
         public void onDestroy(GameScenes g)
         {
-            Log.dbg("NavUtils: Destorying App 1");
+            Log.Debug("NavUtils: Destorying App 1");
+            toolbarControl.OnDestroy();
+            Destroy(toolbarControl);
 
-            GameEvents.onGUIApplicationLauncherReady.Remove(AddButton);
+            //GameEvents.onGUIApplicationLauncherReady.Remove(AddButton);
 
-            if (appButton != null)
+            //if (appButton != null)
             {
-                Log.dbg("NavUtils: Destorying App 2");
+                Log.Debug("NavUtils: Destorying App 2");
 
 
                 //save settings to config
@@ -404,7 +444,7 @@ namespace NavInstruments.NavUtilLib
 
                 var.Settings.hsiState = false;
 
-                KSP.UI.Screens.ApplicationLauncher.Instance.RemoveModApplication(appButton);
+                //KSP.UI.Screens.ApplicationLauncher.Instance.RemoveModApplication(appButton);
             }
         }
 
@@ -412,7 +452,7 @@ namespace NavInstruments.NavUtilLib
 
         //void OnGUIReady()
         //{
-        //    Log.dbg("NavUtils: NavUtilLibApp.OnGUIReady()");
+        //    Log.Debug("NavUtils: NavUtilLibApp.OnGUIReady()");
 
         //    if (KSP.UI.Screens.ApplicationLauncher.Ready && !var.Settings.useBlizzy78ToolBar)
         //    {
@@ -441,7 +481,7 @@ namespace NavInstruments.NavUtilLib
 
         void onAppLaunchToggleOn()
         {
-            Log.dbg("NavUtils: onAppLaunchToggleOn");
+            Log.Debug("NavUtils: onAppLaunchToggleOn");
             if(isHovering)
             {
                 if (Event.current.alt)
@@ -454,14 +494,14 @@ namespace NavInstruments.NavUtilLib
 
         Finish:
             ;
-            ////Log.dbg("onAppLaunchToggleOn");
+            ////Log.Debug("onAppLaunchToggleOn");
 
-            //Log.dbg("{0}", appButton.GetAnchor());
-            //Log.dbg("State: {0}", appButton.State);
-            //Log.dbg("{0}", appButton.transform);
-            //Log.dbg("{0}", appButton.transform.position);
+            //Log.Debug("{0}", appButton.GetAnchor());
+            //Log.Debug("State: {0}", appButton.State);
+            //Log.Debug("{0}", appButton.transform);
+            //Log.Debug("{0}", appButton.transform.position);
 
-            Log.dbg("NavUtils: onAppLaunchToggleOn End");
+            Log.Debug("NavUtils: onAppLaunchToggleOn End");
         }
 
 
@@ -469,7 +509,7 @@ namespace NavInstruments.NavUtilLib
 
         void onAppLaunchToggleOff()
         {
-            Log.dbg("NavUtils: onAppLaunchToggleOff");
+            Log.Debug("NavUtils: onAppLaunchToggleOff");
             if (isHovering)
             {
                 if (Event.current.alt)
@@ -487,22 +527,22 @@ namespace NavInstruments.NavUtilLib
         }
         void onAppLaunchHoverOn()
         {
-            Log.dbg("onHover");
+            Log.Debug("onHover");
 
             isHovering = true;
         }
         void onAppLaunchHoverOff()
         {
-            Log.dbg("offHover");
+            Log.Debug("offHover");
             isHovering = false;
         }
         void onAppLaunchEnable()
         {
-            Log.dbg("NavUtils: onAppLaunchEnable");
+            Log.Debug("NavUtils: onAppLaunchEnable");
         }
         void onAppLaunchDisable()
         {
-            Log.dbg("NavUtils: onAppLaunchDisable");
+            Log.Debug("NavUtils: onAppLaunchDisable");
         }
 
         bool isApplicationTrue()

@@ -2,6 +2,7 @@
 
 using System;
 using UnityEngine;
+using static NavUtilLib.RegisterToolbar;
 
 namespace NavInstruments.NavUtilLib
 {
@@ -9,7 +10,7 @@ namespace NavInstruments.NavUtilLib
     {
         public static RenderTexture addTextToRT(RenderTexture rt, string Text, Vector2 position, Material mat, float scale)
         {
-            Log.dbg("Printing: {0}", Text);
+            Log.Debug("Printing: "+ Text);
 
             GL.PushMatrix();
             GL.LoadPixelMatrix(0, rt.width, rt.height, 0);

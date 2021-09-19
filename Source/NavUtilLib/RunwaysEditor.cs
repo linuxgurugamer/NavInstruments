@@ -2,6 +2,7 @@
 
 using System;
 using UnityEngine;
+using ClickThroughFix;
 
 using var = NavInstruments.NavUtilLib.GlobalVariables;
 using Rwy = NavInstruments.NavUtilLib.GlobalVariables.FlightData;
@@ -48,7 +49,7 @@ namespace NavInstruments.NavUtilGUI
             if (windowPos.yMin + windowPos.height < 20) windowPos.yMin = 20 - windowPos.height;
             if (windowPos.xMin > Screen.width - 20) windowPos.xMin = Screen.width - 20;
             if (windowPos.yMin > Screen.height - 20) windowPos.yMin = Screen.height - 20;
-            windowPos = GUI.Window(450448971, windowPos, OnWindow, "Runway Customizer");
+            windowPos = ClickThruBlocker.GUIWindow(450448971, windowPos, OnWindow, "Runway Customizer");
         }
 
         private static void OnWindow(int winID)

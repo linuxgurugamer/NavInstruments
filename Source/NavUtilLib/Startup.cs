@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-using Log = NavInstruments.NavUtilLib.Log;
+//using Log = NavInstruments.NavUtilLib.Log;
+using static NavUtilLib.RegisterToolbar;
 
 namespace NavInstruments
 {
@@ -8,8 +9,9 @@ namespace NavInstruments
 	{
         private void Start()
         {
-            Log.force("Version {0}", Version.Text);
+           // Log.Debug("Version "+Version.Text);
 
+#if false
             try
             {
                 //KSPe.Util.Compatibility.Check<Startup>(typeof(Version), typeof(Configuration));
@@ -20,6 +22,7 @@ namespace NavInstruments
                 Log.ex(this, e);
                 KSPe.Common.Dialogs.ShowStopperAlertBox.Show(e);
             }
+#endif
         }
 	}
 }

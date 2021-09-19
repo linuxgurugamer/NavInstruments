@@ -4,6 +4,7 @@ using UnityEngine;
 using KSP;
 using NavInstruments.NavUtilLib;
 using var = NavInstruments.NavUtilLib.GlobalVariables;
+using static NavUtilLib.RegisterToolbar;
 
 namespace NavInstruments.KSFRPMHSI
 {
@@ -101,10 +102,10 @@ namespace NavInstruments.KSFRPMHSI
             //{
             //    var v = var.FlightData.currentVessel;
             //    var r = var.FlightData.selectedRwy;
-            //    Log.detail("Lat: " + v.latitude + " Lon: " + v.longitude + " GCD: " + NavUtilLib.Utils.CalcGreatCircleDistance(v.latitude, v.longitude, r.gsLatitude, r.gsLongitude, r.body));
+            //    Log.Info("Lat: " + v.latitude + " Lon: " + v.longitude + " GCD: " + NavUtilLib.Utils.CalcGreatCircleDistance(v.latitude, v.longitude, r.gsLatitude, r.gsLongitude, r.body));
             //}
 
-            //Log.detail("ButtonID: " + buttonID);
+            //Log.Info("ButtonID: " + buttonID);
 
             var.FlightData.rwyIdx = Utils.indexChecker(var.FlightData.rwyIdx, var.FlightData.currentBodyRunways.Count - 1, 0);
             var.FlightData.gsIdx = Utils.indexChecker(var.FlightData.gsIdx, var.FlightData.gsList.Count - 1, 0);
@@ -115,14 +116,14 @@ namespace NavInstruments.KSFRPMHSI
 
         public void Start()
         {
-            Log.detail("MLS: Starting systems...");
+            Log.Info("MLS: Starting systems...");
             if (!var.Settings.navAidsIsLoaded)
                 var.Settings.loadNavAids();
 
             if (!var.Materials.isLoaded)
                 var.Materials.loadMaterials();
 
-            Log.detail("MLS: Systems started successfully!");
+            Log.Info("MLS: Systems started successfully!");
 
             //doneLoading = true;
         }
@@ -151,12 +152,12 @@ namespace NavInstruments.KSFRPMHSI
 
         public void Start()
         {
-            Log.detail("NavUtils AI: Starting systems...");
+            Log.Info("NavUtils AI: Starting systems...");
 
             if (!var.Materials.isLoaded)
                 var.Materials.loadMaterials();
 
-            Log.detail("NavUtils AI: Systems started successfully!");
+            Log.Info("NavUtils AI: Systems started successfully!");
 
         }
     }

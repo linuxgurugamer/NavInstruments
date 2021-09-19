@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using ClickThroughFix;
 
 namespace NavInstruments.NavUtilLib
 {
@@ -32,7 +33,7 @@ namespace NavInstruments.NavUtilLib
 			if (winPos.yMin + winPos.height < 20) winPos.yMin = 20 - winPos.height;
 			if (winPos.xMin > Screen.width - 20) winPos.xMin = Screen.width - 20;
 			if (winPos.yMin > Screen.height - 20) winPos.yMin = Screen.height - 20;
-				winPos = GUI.Window(WINDOW_ID, winPos, OnWindow, "Runway list");
+				winPos = ClickThruBlocker.GUIWindow(WINDOW_ID, winPos, OnWindow, "Runway list");
 		}
 
 		public static void OnWindow(int winId) {

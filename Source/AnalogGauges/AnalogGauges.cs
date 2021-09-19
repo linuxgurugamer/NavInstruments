@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using NavInstruments.NavUtilLib;
+using static NavUtilLib.RegisterToolbar;
 
 namespace NavInstruments.NavUtilLib.Analog
 {
@@ -51,7 +52,7 @@ namespace NavInstruments.NavUtilLib.Analog
 
         Transform compass;
         Quaternion compassInit;
-        float compassCurrent;
+        //float compassCurrent;
 
         Transform locNeedle;
         Vector3 locInit;
@@ -73,6 +74,7 @@ namespace NavInstruments.NavUtilLib.Analog
 
         public override void OnAwake()
         {
+            Debug.Log("AnalogHSA.OnAwake 1");
             compass = internalProp.FindModelTransform(compassObject);
             compassInit = compass.transform.localRotation;
 
@@ -88,31 +90,44 @@ namespace NavInstruments.NavUtilLib.Analog
 
             brgBug = internalProp.FindModelTransform(brgObject);
             brgBugInt = brgBug.transform.localRotation;
+            Debug.Log("AnalogHSA.OnAwake 2");
 
             dme[0] = internalProp.FindModelTransform(dmeTenthsObject);
             dme[1] = internalProp.FindModelTransform(dmeOnesObject);
             dme[2] = internalProp.FindModelTransform(dmeTensObject);
             dme[3] = internalProp.FindModelTransform(dmeHundredsObject);
+            Debug.Log("AnalogHSA.OnAwake 3");
+            for (int i = 0; i < 4; i++)
+            {
+                if (dme[i] == null)
+                    Log.Info("dme[" + i + "] is null");
+                else
+                    dmeInt[i] = dme[i].transform.localRotation;
 
+            }
+#if false
             dmeInt[0] = dme[0].transform.localRotation;
             dmeInt[1] = dme[1].transform.localRotation;
             dmeInt[2] = dme[2].transform.localRotation;
             dmeInt[3] = dme[3].transform.localRotation;
+#endif
+            Debug.Log("AnalogHSA.OnAwake 4");
 
-            Log.info("MLS: Starting systems...");
+            Log.Info("MLS: Starting systems...");
             if (!NavUtilLib.GlobalVariables.Settings.navAidsIsLoaded)
                 NavUtilLib.GlobalVariables.Settings.loadNavAids();
 
             if (!NavUtilLib.GlobalVariables.Materials.isLoaded)
                 NavUtilLib.GlobalVariables.Materials.loadMaterials();
 
-            Log.info("MLS: Systems started successfully!");
+            Log.Info("MLS: Systems started successfully!");
+            Debug.Log("AnalogHSA.OnAwake 5");
 
         }
 
         public override void OnUpdate()
         {
-            float deltaNum = new float();
+            //float deltaNum = new float();
             float rotateLim = new float();
             float transLim = new float();
 
@@ -226,24 +241,24 @@ namespace NavInstruments.NavUtilLib.Analog
 
     }
 
-
+#if true
 
     public static class AnalogGaugeUtils
     {
         public static float numberRot(float value, float dec)
         {
-            float amt = (int)(value/1) * 36 + 18;
+            float amt = (int)(value / 1) * 36 + 18;
 
-            if((value %1) <= .9f || (int)(value * 10) % 10 <= .9f)
+            if ((value % 1) <= .9f || (int)(value * 10) % 10 <= .9f)
             {
-              return amt;
+                return amt;
             }
 
-                //if (dec > .9f)
-                //{
-                    dec -= .9f;
-                    amt += dec * 360;
-                //}
+            //if (dec > .9f)
+            //{
+            dec -= .9f;
+            amt += dec * 360;
+            //}
 
             return amt;
         }
@@ -271,7 +286,7 @@ namespace NavInstruments.NavUtilLib.Analog
                     break;
 
                 default:
-                    Log.warn("NavUtilLib.AnalogGaugeUtils.single_Axis_Rotate: No axis found");
+                    Log.Warn("NavUtilLib.AnalogGaugeUtils.single_Axis_Rotate: No axis found");
                     break;
             }
 
@@ -300,7 +315,7 @@ namespace NavInstruments.NavUtilLib.Analog
                     break;
 
                 default:
-                    Log.warn("NavUtilLib.AnalogGaugeUtils.single_Axis_Translate: No axis found");
+                    Log.Warn("NavUtilLib.AnalogGaugeUtils.single_Axis_Translate: No axis found");
                     break;
             }
 
@@ -308,4 +323,5 @@ namespace NavInstruments.NavUtilLib.Analog
         }
 
     }
+#endif
 }

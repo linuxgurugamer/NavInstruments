@@ -2,8 +2,10 @@
 
 
 using UnityEngine;
-using Asset = KSPe.IO.Asset<NavInstruments.KSPeHack>;
+//using Asset = KSPe.IO.Asset<NavInstruments.KSPeHack>;
 using mat = NavInstruments.NavUtilLib.GlobalVariables.Materials;
+using ToolbarControl_NS;
+using static NavUtilLib.RegisterToolbar;
 
 namespace NavInstruments.NavUtilLib
 {
@@ -130,19 +132,23 @@ namespace NavInstruments.NavUtilLib
             return screen;
         }
 
-        
 
+        public const string DATADIR = "GameData/NavInstruments/PluginData/";
+        public const string TEXTUREDIR = "Textures/";
         public static Material loadMaterial(string name, int width, int height)
 		{
-            Log.detail("NavUtilLib: Loading Material " + name);
+            Log.Info("NavUtilLib: Loading Material " + name);
 
             //Shader unlit = Shader.Find("KSP/Alpha/Unlit Transparent");
             Shader unlit = Shader.Find("Sprites/Default");
 
+            Texture2D tex = new Texture2D(2, 2);
+                ToolbarControl.LoadImageFromFile(ref tex, DATADIR + TEXTUREDIR + name);
             Material mat = new Material(unlit)
             {
                 color = Color.white,
-                mainTexture = Asset.Texture2D.LoadFromFile(width, height, "Textures", name)
+                //mainTexture = Asset.Texture2D.LoadFromFile(width, height, "Textures", name)
+                mainTexture = tex
             };
             
             return mat;

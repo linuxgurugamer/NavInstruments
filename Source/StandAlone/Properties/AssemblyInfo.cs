@@ -33,6 +33,3 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 //[assembly: AssemblyFileVersion("0.4.*")]
-[assembly: AssemblyVersion(NavInstruments.Version.Number)]
-[assembly: AssemblyFileVersion(NavInstruments.Version.Number)]
-[assembly: KSPAssemblyDependency("KSPe", 2, 1)]

@@ -1,3 +1,4 @@
+#if false
 using UnityEngine;
 
 using Logger = KSPe.Util.Log.Logger;
@@ -56,3 +57,4 @@ namespace NavInstruments.NavUtilLib
         }
     }
 }
+#endif

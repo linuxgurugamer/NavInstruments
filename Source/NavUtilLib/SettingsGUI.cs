@@ -2,6 +2,7 @@
 
 using System.Linq;
 using UnityEngine;
+using ClickThroughFix;
 
 namespace NavInstruments.NavUtilLib
 {
@@ -38,7 +39,7 @@ namespace NavInstruments.NavUtilLib
                 if (SettingsGUI.winPos.yMin + SettingsGUI.winPos.height < 20) SettingsGUI.winPos.yMin = 20 - SettingsGUI.winPos.height;
                 if (SettingsGUI.winPos.xMin > Screen.width - 20) SettingsGUI.winPos.xMin = Screen.width - 20;
                 if (SettingsGUI.winPos.yMin > Screen.height - 20) SettingsGUI.winPos.yMin = Screen.height - 20;
-                SettingsGUI.winPos = GUI.Window(206574909, SettingsGUI.winPos, OnWindow, "NavUtil Settings");
+                SettingsGUI.winPos = ClickThruBlocker.GUIWindow(206574909, SettingsGUI.winPos, OnWindow, "NavUtil Settings");
         }
 
         private static void OnWindow(int winID)

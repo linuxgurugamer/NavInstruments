@@ -78,7 +78,7 @@ namespace NavInstruments.AircraftAutoPilot
 
 //               if ((CurrentRegime & Regime.LNav) == Regime.LNav)
 //               {
-//                   Log.info("LNav Now On");
+//                   Log.Info("LNav Now On");
 
 //                   Variables.LNavTarget = (float)FlightGlobals.ship_heading;
 //               }
@@ -90,7 +90,7 @@ namespace NavInstruments.AircraftAutoPilot
 
 //                if((CurrentRegime & Regime.VNav) == Regime.VNav)
 //                {
-//                    Log.info("VNav Now On");
+//                    Log.Info("VNav Now On");
 
 //                    Variables.VNavTarget = (float)FlightGlobals.ship_altitude;
 //                }
@@ -183,7 +183,7 @@ namespace NavInstruments.AircraftAutoPilot
 //            {
 //                float A = 0;
 
-//                Log.info((Airspeed * Airspeed) / Radius / Gee);
+//                Log.Info((Airspeed * Airspeed) / Radius / Gee);
 
 //                A = (float)NavUtilLib.Utils.CalcDegFromRadians(Math.Atan((Airspeed * Airspeed) / Radius / Gee));
 
