@@ -74,7 +74,6 @@ namespace NavInstruments.NavUtilLib.Analog
 
         public override void OnAwake()
         {
-            Debug.Log("AnalogHSA.OnAwake 1");
             compass = internalProp.FindModelTransform(compassObject);
             compassInit = compass.transform.localRotation;
 
@@ -90,13 +89,11 @@ namespace NavInstruments.NavUtilLib.Analog
 
             brgBug = internalProp.FindModelTransform(brgObject);
             brgBugInt = brgBug.transform.localRotation;
-            Debug.Log("AnalogHSA.OnAwake 2");
 
             dme[0] = internalProp.FindModelTransform(dmeTenthsObject);
             dme[1] = internalProp.FindModelTransform(dmeOnesObject);
             dme[2] = internalProp.FindModelTransform(dmeTensObject);
             dme[3] = internalProp.FindModelTransform(dmeHundredsObject);
-            Debug.Log("AnalogHSA.OnAwake 3");
             for (int i = 0; i < 4; i++)
             {
                 if (dme[i] == null)
@@ -111,7 +108,6 @@ namespace NavInstruments.NavUtilLib.Analog
             dmeInt[2] = dme[2].transform.localRotation;
             dmeInt[3] = dme[3].transform.localRotation;
 #endif
-            Debug.Log("AnalogHSA.OnAwake 4");
 
             Log.Info("MLS: Starting systems...");
             if (!NavUtilLib.GlobalVariables.Settings.navAidsIsLoaded)
@@ -121,7 +117,6 @@ namespace NavInstruments.NavUtilLib.Analog
                 NavUtilLib.GlobalVariables.Materials.loadMaterials();
 
             Log.Info("MLS: Systems started successfully!");
-            Debug.Log("AnalogHSA.OnAwake 5");
 
         }
 
@@ -241,7 +236,6 @@ namespace NavInstruments.NavUtilLib.Analog
 
     }
 
-#if true
 
     public static class AnalogGaugeUtils
     {
@@ -323,5 +317,4 @@ namespace NavInstruments.NavUtilLib.Analog
         }
 
     }
-#endif
 }

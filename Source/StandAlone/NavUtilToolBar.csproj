@@ -5,7 +5,6 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{837BDF09-DB12-45B3-B32A-0F557BAD2856}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <BaseIntermediateOutputPath>..\..\obj</BaseIntermediateOutputPath>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NavUtilToolBar</RootNamespace>
     <AssemblyName>NavUtilToolBar</AssemblyName>

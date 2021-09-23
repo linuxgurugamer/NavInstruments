@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if false
+using System;
 using UnityEngine;
 using System.Linq;
 
@@ -174,7 +175,7 @@ namespace NavInstruments.NavUtilLib.Analog
 
         private void OnHdgBtnClick()
         {
-
+            Log.Info("OnHdgBtnClick, button: " + Event.current.button);
             if (Event.current.button == 0)
             {
                 NavUtilLib.GlobalVariables.FlightData.rwyIdx++;
@@ -199,6 +200,7 @@ namespace NavInstruments.NavUtilLib.Analog
 
         private void OnCrsBtnClick()
         {
+            Log.Info("OnCrsBtnClick, button: " + Event.current.button);
             if (Event.current.button == 0)
                 NavUtilLib.GlobalVariables.FlightData.gsIdx++;
             else
@@ -471,7 +473,7 @@ namespace NavInstruments.NavUtilLib.Analog
 
 
 
-     static class AnalogGaugeUtils
+    static class AnalogGaugeUtils
     {
         public static float numberRot(float value, float dec)
         {
@@ -552,3 +554,5 @@ namespace NavInstruments.NavUtilLib.Analog
 
     }
 }
+
+#endif

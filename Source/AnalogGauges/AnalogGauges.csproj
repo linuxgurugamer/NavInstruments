@@ -6,7 +6,6 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{232FA638-F93A-4E4E-B70E-6A6C4ACA6B99}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <BaseIntermediateOutputPath>..\..\obj</BaseIntermediateOutputPath>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AnalogGauges</RootNamespace>
     <AssemblyName>AnalogGauges</AssemblyName>
@@ -51,7 +50,6 @@
       <DependentUpon>AssemblyVersion.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Log.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NavUtilLib\NavUtilLib.csproj">

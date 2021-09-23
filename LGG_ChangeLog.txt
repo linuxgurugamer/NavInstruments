@@ -1,0 +1,23 @@
+ChangeLog
+
+0.8.0
+	Adoption by Linuxgurugamer
+	Added support for Toolbarcontroller
+	Added support for ClickThroughBlocker
+	Removed direct Blizzy toolbar support, replaced with ToolbarController
+	Removed direct stock toolbar support, replaced with ToolbarController
+	Added new dependeicies
+		ToolbarController
+		ClickThroughBlocker
+		SpaceTuxLibrary
+	Removed KSPe dependency
+	Replaced KSPe methods with equivilent from ToolbarController and SpaceTuxLibrary
+	Moved directories to generally accepted locations by most mod authors
+	Removed special logging classes (multiple), replaced with KSP_Log from SpaceTuxLibrary
+	Fixed duplicated AnalogGaugeUtils definition by making one local
+	Converted textures to DDS
+	Removed "goto" statements 
+	Added right-click on button to bring up settings in addition to alt-click on button
+	Removed the AircraftAutoPilot DLL since there was no code there
+	Removed the NavUtilToolBar DLL since there was no code there
+	Disabled the NavUtilLib/AnalogGauges.cs, since it wasn't being used by anything

@@ -8,10 +8,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("NavUtilToolBar")]
 [assembly: AssemblyDescription("An addon for Kerbal Space Program to create a GUI between NavUtilLib and Toolbar")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany(NavInstruments.LegalMamboJambo.Company)]
-[assembly: AssemblyProduct(NavInstruments.LegalMamboJambo.Product)]
-[assembly: AssemblyCopyright(NavInstruments.LegalMamboJambo.Copyight)]
-[assembly: AssemblyTrademark(NavInstruments.LegalMamboJambo.Trademark)]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 

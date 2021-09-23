@@ -24,9 +24,9 @@ namespace NavUtilLib
         {
             if (Log == null)
 #if DEBUG
-                Log = new Log("LogNotes", Log.LEVEL.INFO);
+                Log = new Log("NavInstruments", Log.LEVEL.INFO);
 #else
-          Log = new Log("LogNotes", Log.LEVEL.ERROR);
+          Log = new Log("NavInstruments", Log.LEVEL.ERROR);
 #endif
 
         }

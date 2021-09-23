@@ -8,7 +8,7 @@ using static NavUtilLib.RegisterToolbar;
 using ClickThroughFix;
 
 namespace NavInstruments
-{ 
+{
     public class KSPeHack { }
 }
 
@@ -27,7 +27,7 @@ namespace NavInstruments.NavUtilLib
                 if (var.Settings.hsiState) OnDraw();
                 if (NavUtilLib.SettingsGUI.isActive) NavUtilLib.SettingsGUI.OnDraw();
                 if (var.Settings.rwyEditorState) NavUtilGUI.RunwaysEditor.OnDraw();
-				if (RunwayListGUI.isActive)	RunwayListGUI.OnDraw();
+                if (RunwayListGUI.isActive) RunwayListGUI.OnDraw();
             }
         }
 
@@ -76,8 +76,8 @@ namespace NavInstruments.NavUtilLib
         private bool gsHover = false;
         private bool closeHover = false;
 
-		private Vector3 originalNavBallWaypointSize = Vector3.zero;
-		private Vector3 originalIVANavBallWaypointSize = Vector3.zero;
+        private Vector3 originalNavBallWaypointSize = Vector3.zero;
+        private Vector3 originalIVANavBallWaypointSize = Vector3.zero;
 
         public void displayHSI()
         {
@@ -101,8 +101,8 @@ namespace NavInstruments.NavUtilLib
 
 
 
-		public void Activate(bool state)
-		{
+        public void Activate(bool state)
+        {
             Log.Debug("NavUtils: NavUtilLibApp.Activate()");
 
             if (state)
@@ -158,7 +158,7 @@ namespace NavInstruments.NavUtilLib
 
                 windowPosition = ClickThruBlocker.GUIWindow(-471466245, windowPosition, OnWindow, "Horizontal Situation Indicator");
             }
-            Log.Debug( windowPosition.ToString());
+            Log.Debug(windowPosition.ToString());
         }
 
         private void DrawGauge(RenderTexture screen)
@@ -176,14 +176,14 @@ namespace NavInstruments.NavUtilLib
             //write runway info
 
             string runwayText = (var.FlightData.isINSMode() ? "INS" : "Runway") + ": " + var.FlightData.selectedRwy.ident;
-            string glideslopeText = var.FlightData.isINSMode() ? ""	: "Glideslope: " + string.Format("{0:F1}", var.FlightData.selectedGlideSlope) + "°  ";
+            string glideslopeText = var.FlightData.isINSMode() ? "" : "Glideslope: " + string.Format("{0:F1}", var.FlightData.selectedGlideSlope) + "°  ";
             string elevationText = (var.FlightData.isINSMode() ? "Alt MSL" : "Elevation") + ": " + string.Format("{0:F0}", var.FlightData.selectedRwy.altMSL) + "m";
-            
+
             runwayText = (rwyHover ? "→" : " ") + runwayText;
             glideslopeText = (gsHover ? "→" : " ") + glideslopeText;
-            
-	        NavUtilLib.TextWriter.addTextToRT(screen, runwayText, new Vector2(20, screen.height - 40), var.Materials.Instance.whiteFont, .64f);
-	        NavUtilLib.TextWriter.addTextToRT(screen, glideslopeText + elevationText, new Vector2(20, screen.height - 64), var.Materials.Instance.whiteFont, .64f);
+
+            NavUtilLib.TextWriter.addTextToRT(screen, runwayText, new Vector2(20, screen.height - 40), var.Materials.Instance.whiteFont, .64f);
+            NavUtilLib.TextWriter.addTextToRT(screen, glideslopeText + elevationText, new Vector2(20, screen.height - 64), var.Materials.Instance.whiteFont, .64f);
 
             NavUtilLib.TextWriter.addTextToRT(screen, NavUtilLib.Utils.numberFormatter((float)NavUtilLib.Utils.makeAngle0to360(FlightGlobals.ship_heading), true).ToString(), new Vector2(584, screen.height - 102), var.Materials.Instance.whiteFont, .64f);
             NavUtilLib.TextWriter.addTextToRT(screen, NavUtilLib.Utils.numberFormatter((float)NavUtilLib.Utils.makeAngle0to360(var.FlightData.bearing), true).ToString(), new Vector2(584, screen.height - 131), var.Materials.Instance.whiteFont, .64f);
@@ -210,9 +210,9 @@ namespace NavInstruments.NavUtilLib
                 20 * var.Settings.hsiGUIscale);
 
             Rect gsBtn = new Rect(20 * var.Settings.hsiGUIscale,
-        38 * var.Settings.hsiGUIscale,
-        200 * var.Settings.hsiGUIscale,
-        20 * var.Settings.hsiGUIscale);
+                38 * var.Settings.hsiGUIscale,
+                200 * var.Settings.hsiGUIscale,
+                20 * var.Settings.hsiGUIscale);
 
             Rect closeBtn = new Rect(330 * var.Settings.hsiGUIscale,
                 580 * var.Settings.hsiGUIscale,
@@ -236,18 +236,24 @@ namespace NavInstruments.NavUtilLib
 
             if (GUI.Button(rwyBtn, new GUIContent("Next Runway", "rwyOn")) && !var.FlightData.isINSMode()) //doesn't let runway to be switched in INS mode
             {
-				if (Event.current.alt) {
-					RunwayListGUI.show(windowPosition);
-				} else {
+                if (Event.current.alt)
+                {
+                    RunwayListGUI.show(windowPosition);
+                }
+                else
+                {
 
-					if (Event.current.button == 0) {
-						var.FlightData.rwyIdx++;
-					} else {
-						var.FlightData.rwyIdx--;
-					}
+                    if (Event.current.button == 0)
+                    {
+                        var.FlightData.rwyIdx++;
+                    }
+                    else
+                    {
+                        var.FlightData.rwyIdx--;
+                    }
 
-					var.FlightData.rwyIdx = NavUtilLib.Utils.indexChecker(var.FlightData.rwyIdx, var.FlightData.currentBodyRunways.Count - 1, 0);
-				}
+                    var.FlightData.rwyIdx = NavUtilLib.Utils.indexChecker(var.FlightData.rwyIdx, var.FlightData.currentBodyRunways.Count - 1, 0);
+                }
             }
 
             if (GUI.tooltip == "rwyOn")
@@ -255,7 +261,7 @@ namespace NavInstruments.NavUtilLib
             else
                 rwyHover = false;
 
-
+        
             if (GUI.Button(gsBtn, new GUIContent("Next G/S", "gsOn")))
             {
                 if (Event.current.button == 0)
@@ -291,81 +297,36 @@ namespace NavInstruments.NavUtilLib
 
         public const string DATADIR = "GameData/NavInstruments/PluginData/";
         public const string MODDIR = "NavInstruments/";
-        public const string TOOLBARDIR = "PluginData/Toolbar/";
-
-#if false
-        void AddButton()
-        {
-            Texture2D tex = new Texture2D(2, 2);
-            ToolbarControl.LoadImageFromFile(ref tex, DATADIR + TOOLBARDIR + "toolbarButton3838");
-
-            if (KSP.UI.Screens.ApplicationLauncher.Ready) {
-				appButton = KSP.UI.Screens.ApplicationLauncher.Instance.AddModApplication(
-					onAppLaunchToggleOn,
-					onAppLaunchToggleOff,
-					onAppLaunchHoverOn,
-					onAppLaunchHoverOff,
-					onAppLaunchEnable,
-					onAppLaunchDisable,
-					KSP.UI.Screens.ApplicationLauncher.AppScenes.FLIGHT,
-                    tex
-				);
-				app = this;
-			}
-        }
-#endif
-
+        public const string TOOLBARDIR = "PluginData/Textures/Toolbar/";
 
         void Awake()
-		{
+        {
             Log.Debug("NavUtils: NavUtilLibApp.Awake()");
 
             //load settings to config
             ConfigLoader.LoadSettings();
 
-            Log.Debug("NavUtil: useBlizzy? " + var.Settings.useBlizzy78ToolBar);
 
             toolbarControl = gameObject.AddComponent<ToolbarControl>();
-            toolbarControl.AddToAllToolbars(onAppLaunchToggleOn,
-                    onAppLaunchToggleOff,
+            toolbarControl.AddToAllToolbars(null,
+                    null,
                     onAppLaunchHoverOn,
                     onAppLaunchHoverOff,
                     onAppLaunchEnable,
                     onAppLaunchDisable,
+                    KSP.UI.Screens.ApplicationLauncher.AppScenes.FLIGHT,
+                    MODID,
+                    "NavLibButton",
+                    MODDIR + TOOLBARDIR + "toolbarButton3838",
+                    MODDIR + TOOLBARDIR + "toolbarButton",
+                    MODNAME
+                );
+            toolbarControl.AddLeftRightClickCallbacks(onAppLaunchToggle, SettingsGUI.startSettingsGUI);
+            GameEvents.onGUIApplicationLauncherUnreadifying.Add(onDestroy);
+            GameEvents.onGameSceneLoadRequested.Add(onDestroy);
 
-                KSP.UI.Screens.ApplicationLauncher.AppScenes.FLIGHT,
-                MODID,
-                "NavLibButton",
-                MODDIR + TOOLBARDIR + "toolbarButton3838",
-                MODDIR + TOOLBARDIR + "toolbarButton",
-                MODNAME
-            );
-            //app = this;
-
-#if false
-            if (var.Settings.useBlizzy78ToolBar && ToolbarManager.ToolbarAvailable) {
-
-                IToolbarManager toolbar = ToolbarManager.Instance;
-				toolbarButton = toolbar.add("NavUtilities", "NavUtilButton");
-				toolbarButton.TexturePath = DATADIR + TOOLBARDIR + "toolbarButton";
-				toolbarButton.OnClick += (clickEvent => {
-					isHovering = true;
-					onAppLaunchToggleOn();
-				});
-				toolbarButton.Visible = true;
-				toolbarButton.ToolTip = "NavUtilities HSI / Hold Alt to open settings";
-			} else {
-#endif
-                //GameEvents.onGUIApplicationLauncherReady.Add(OnGUIReady);
-
-                //if (appButton == null)
-                //GameEvents.onGUIApplicationLauncherReady.Add(AddButton);
-                GameEvents.onGUIApplicationLauncherUnreadifying.Add(onDestroy);
-                GameEvents.onGameSceneLoadRequested.Add(onDestroy);
-
-                GameEvents.onShowUI.Add(ShowGUI);
-                GameEvents.onHideUI.Add(HideGUI);
-            //}
+            GameEvents.onShowUI.Add(ShowGUI);
+            GameEvents.onHideUI.Add(HideGUI);
 
 
 
@@ -374,34 +335,41 @@ namespace NavInstruments.NavUtilLib
 
         }
 
-		void Update() {
+        void Update()
+        {
 
-			NavWaypoint navWaypoint = NavWaypoint.fetch;
+            NavWaypoint navWaypoint = NavWaypoint.fetch;
 
-			//TODO optimize these searches
-			if (navWaypoint.IsActive && CameraManager.Instance.currentCameraMode == CameraManager.CameraMode.IVA) {
-				InternalNavBall navBall = null;
-				foreach (InternalProp prop in CameraManager.Instance.IVACameraActiveKerbal.InPart.internalModel.props) {
-					navBall = (InternalNavBall)prop.internalModules.Find(module => module.GetType().Equals(typeof(InternalNavBall))); 
-					if (navBall != null) {
-						break;
-					}
-				}
-				if (navBall != null) {
-					if (originalIVANavBallWaypointSize.Equals(Vector3.zero)) {
-						originalIVANavBallWaypointSize = navBall.navWaypointVector.localScale;
-					}
-					navBall.navWaypointVector.localScale = GlobalVariables.Settings.hideNavBallWaypoint ? Vector3.zero : originalIVANavBallWaypointSize;
-				}
-			}
+            //TODO optimize these searches
+            if (navWaypoint.IsActive && CameraManager.Instance.currentCameraMode == CameraManager.CameraMode.IVA)
+            {
+                InternalNavBall navBall = null;
+                foreach (InternalProp prop in CameraManager.Instance.IVACameraActiveKerbal.InPart.internalModel.props)
+                {
+                    navBall = (InternalNavBall)prop.internalModules.Find(module => module.GetType().Equals(typeof(InternalNavBall)));
+                    if (navBall != null)
+                    {
+                        break;
+                    }
+                }
+                if (navBall != null)
+                {
+                    if (originalIVANavBallWaypointSize.Equals(Vector3.zero))
+                    {
+                        originalIVANavBallWaypointSize = navBall.navWaypointVector.localScale;
+                    }
+                    navBall.navWaypointVector.localScale = GlobalVariables.Settings.hideNavBallWaypoint ? Vector3.zero : originalIVANavBallWaypointSize;
+                }
+            }
 
-			if (originalNavBallWaypointSize.Equals(Vector3.zero)) {
-				originalNavBallWaypointSize = navWaypoint.Visual.transform.localScale;
-			}
-			navWaypoint.Visual.transform.localScale = GlobalVariables.Settings.hideNavBallWaypoint ? Vector3.zero : originalNavBallWaypointSize;
-		}
+            if (originalNavBallWaypointSize.Equals(Vector3.zero))
+            {
+                originalNavBallWaypointSize = navWaypoint.Visual.transform.localScale;
+            }
+            navWaypoint.Visual.transform.localScale = GlobalVariables.Settings.hideNavBallWaypoint ? Vector3.zero : originalNavBallWaypointSize;
+        }
 
-		/*private Transform findWaypointVisual() {
+        /*private Transform findWaypointVisual() {
 			Transform navBall = FlightUIModeController.Instance.navBall.transform.FindChild("IVAEVACollapseGroup");
 			if (navBall == null) {
 				return null;
@@ -479,52 +447,31 @@ namespace NavInstruments.NavUtilLib
 
         //}
 
-        void onAppLaunchToggleOn()
+        void onAppLaunchToggle()
         {
             Log.Debug("NavUtils: onAppLaunchToggleOn");
-            if(isHovering)
-            {
-                if (Event.current.alt)
-                {
-                    NavUtilLib.SettingsGUI.startSettingsGUI();
-                    goto Finish;
-                }
-            }
-            displayHSI();
-
-        Finish:
-            ;
-            ////Log.Debug("onAppLaunchToggleOn");
-
-            //Log.Debug("{0}", appButton.GetAnchor());
-            //Log.Debug("State: {0}", appButton.State);
-            //Log.Debug("{0}", appButton.transform);
-            //Log.Debug("{0}", appButton.transform.position);
+            if (isHovering && Event.current.alt)
+                NavUtilLib.SettingsGUI.startSettingsGUI();
+            else
+                displayHSI();
 
             Log.Debug("NavUtils: onAppLaunchToggleOn End");
         }
 
 
 
-
+#if false
         void onAppLaunchToggleOff()
         {
             Log.Debug("NavUtils: onAppLaunchToggleOff");
-            if (isHovering)
-            {
-                if (Event.current.alt)
-                {
-                    NavUtilLib.SettingsGUI.startSettingsGUI();
-                    goto Finish;
-                }
-            }
-            displayHSI();
+            if (isHovering && Event.current.alt)
+                NavUtilLib.SettingsGUI.startSettingsGUI();
+            else
+                displayHSI();
 
-        Finish:
-            ;
-            //bug.Log("onAppLaunchToggleOff");
-            ;
         }
+
+#endif
         void onAppLaunchHoverOn()
         {
             Log.Debug("onHover");

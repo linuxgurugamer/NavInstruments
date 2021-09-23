@@ -58,7 +58,7 @@ namespace NavInstruments.NavUtilGUI
 
             rwyListVector = GUI.BeginScrollView(new Rect(10, 20, 150, 270), rwyListVector, new Rect(0, 0, 135, rwyListLength + 35));
 
-            if (GUI.Button(new Rect(2, 0, 130, 30), "Create Runway"))
+            if (!isNewRwy && GUI.Button(new Rect(2, 0, 130, 30), "Create Runway"))
             {
                 tempRwy = new NavUtilLib.Runway();
                 isNewRwy = true;

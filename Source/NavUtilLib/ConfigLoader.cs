@@ -1,27 +1,51 @@
 ﻿//NavUtilities by kujuman, © 2014. All Rights Reserved.
 
 using System;
+using System.Collections.Generic;
 using static NavUtilLib.RegisterToolbar;
 
 namespace NavInstruments.NavUtilLib
 {
     public static class ConfigLoader
     {
+        static List<string> runways = new List<string>()
+        {
+            "defaultRunways.cfg",
+            "customRunways.cfg",
+            "HeliPads.cfg"
+        };
+
         public const string DATADIR = "GameData/NavInstruments/PluginData/";
         public const string SETTINGS_FILE = "settings.cfg";
-        public const string DEFAULTRUNWAYS_FILE = "defaultRunways.cfg";
+        //public const string DEFAULTRUNWAYS_FILE = "defaultRunways.cfg";
         public const string CUSTOMRUNWAYS_FILE = "customRunways.cfg";
 
-        //private static readonly KSPe.IO.Data.ConfigNode SETTINGS = KSPe.IO.Data.ConfigNode.ForType<KSPeHack>("NavUtilSettings", "settings.cfg");
-        //private static readonly KSPe.IO.Data.ConfigNode CUSTOM_RUNWAYS = KSPe.IO.Data.ConfigNode.ForType<KSPeHack>("Runways", "customRunways.cfg");
+        //public const string MAKINGHISTORYRUNWAYS_FILE = "makingHistoryRunways.cfg";
+        //public const string HELIPADS_FILE = "HeliPads.cfg";
+
 
         public static System.Collections.Generic.List<Runway> GetRunwayListFromConfig()
         {
             System.Collections.Generic.List<Runway> r = new System.Collections.Generic.List<Runway>();
 
-            //foreach (ConfigNode node in GameDatabase.Instance.GetConfigNodes("Runway"))
-            //    r.Add(CreateRunwayFromNode(node));
+            // Leave this here for anyone putting configs into other directories
+            foreach (ConfigNode node in GameDatabase.Instance.GetConfigNodes("Runway"))
+                r.Add(CreateRunwayFromNode(node));
 
+            if (Expansions.ExpansionsLoader.IsExpansionInstalled("MakingHistory"))
+                runways.Add("makingHistoryRunways.cfg");
+
+            foreach (var runway in runways)
+            {
+                ConfigNode rr = ConfigNode.Load(DATADIR + runway);
+                if (rr != null)
+                {
+                    foreach (ConfigNode node in rr.GetNodes("Runway"))
+                        r.Add(CreateRunwayFromNode(node));
+                }
+
+            }
+#if false
             ConfigNode defaultRunways = ConfigNode.Load(DATADIR + DEFAULTRUNWAYS_FILE);
             if (defaultRunways != null)
             {
@@ -34,6 +58,7 @@ namespace NavInstruments.NavUtilLib
                 foreach (ConfigNode node in customRunways.GetNodes("Runway"))
                     r.Add(CreateRunwayFromNode(node));
             }
+#endif
             return r;
         }
 
@@ -109,7 +134,7 @@ namespace NavInstruments.NavUtilLib
                 GlobalVariables.Settings.enableFineLoc = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "enableFineLoc", true);
                 GlobalVariables.Settings.enableWindowsInIVA = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "enableWindowsInIVA", true);
                 GlobalVariables.Settings.loadCustom_rwyCFG = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "loadCustom_rwyCFG", true);
-                GlobalVariables.Settings.useBlizzy78ToolBar = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "useBlizzy78ToolBar", false);
+                //GlobalVariables.Settings.useBlizzy78ToolBar = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "useBlizzy78ToolBar", false);
                 GlobalVariables.Settings.hsiPosition.x = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "hsiPositionX", 220f);
                 GlobalVariables.Settings.hsiPosition.y = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "hsiPositionY", 500f);
                 //GlobalVariables.Settings.hsiPosition.width = settings.GetValue<float>("hsiPositionWidth",???f);
@@ -146,7 +171,7 @@ namespace NavInstruments.NavUtilLib
             sN.AddValue("enableWindowsInIVA", GlobalVariables.Settings.enableWindowsInIVA);
             sN.AddValue("loadCustom_rwyCFG", GlobalVariables.Settings.loadCustom_rwyCFG);
             sN.AddValue("hideNavBallWaypoint", GlobalVariables.Settings.hideNavBallWaypoint);
-            sN.AddValue("useBlizzy78ToolBar", GlobalVariables.Settings.useBlizzy78ToolBar);
+            //sN.AddValue("useBlizzy78ToolBar", GlobalVariables.Settings.useBlizzy78ToolBar);
 
             sN.AddValue("hsiPositionX", GlobalVariables.Settings.hsiPosition.x);
             sN.AddValue("hsiPositionY", GlobalVariables.Settings.hsiPosition.y);

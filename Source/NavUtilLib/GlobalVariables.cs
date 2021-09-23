@@ -11,18 +11,18 @@ namespace NavInstruments.NavUtilLib
 {
     namespace GlobalVariables
     {
-       
+
         public static class Settings
         {
             //public static string gsFileURL = "GameData/KerbalScienceFoundation/NavInstruments/glideslopes.cfg";
 
             public static bool isKSPGUIActive = true;
 
-            public static Rect hsiPosition = new Rect(50,50,640,640);
+            public static Rect hsiPosition = new Rect(50, 50, 640, 640);
             public static float hsiGUIscale = 0.5f;
             public static bool hsiState = false;
 
-            public static Rect settingsGUI = new Rect(100,50,250,180);
+            public static Rect settingsGUI = new Rect(100, 50, 250, 180);
 
             public static Rect rwyEditorGUI = new Rect(50, 50, 450, 300);
             public static bool rwyEditorState = false;
@@ -32,17 +32,16 @@ namespace NavInstruments.NavUtilLib
             public static bool enableFineLoc = true;
 
             public static bool loadCustom_rwyCFG = true;
-            public static bool useBlizzy78ToolBar = false;
 
             public static bool enableWindowsInIVA = true;
 
-			public static bool hideNavBallWaypoint = false;
+            public static bool hideNavBallWaypoint = false;
 
             public static int appInstance;
 
             public static NavUtilLibApp appReference;
 
-			/*public static void loadNavAids_not_working() {
+            /*public static void loadNavAids_not_working() {
 				FlightData.rwyList.Clear();
 				ConfigNode[] nodes = GameDatabase.Instance.GetConfigNodes("Runway");
 				KSPLog.print("^^^^ NODES: " + nodes.Length);
@@ -73,17 +72,21 @@ namespace NavInstruments.NavUtilLib
                 FlightData.gsList = ConfigLoader.GetGlideslopeListFromConfig();
 
                 FlightData.customRunways.Clear();
-				FlightData.allRunways.ForEach(runway => {
-					if (FlightGlobals.currentMainBody == null) {
-						return;
-					}
-					if (FlightGlobals.currentMainBody.name == runway.body) {
-						FlightData.currentBodyRunways.Add(runway);
-					}
-					if (runway.custom) {
-						FlightData.customRunways.Add(runway);
-					}
-				});
+                FlightData.allRunways.ForEach(runway =>
+                {
+                    if (FlightGlobals.currentMainBody == null)
+                    {
+                        return;
+                    }
+                    if (FlightGlobals.currentMainBody.name == runway.body)
+                    {
+                        FlightData.currentBodyRunways.Add(runway);
+                    }
+                    if (runway.custom)
+                    {
+                        FlightData.customRunways.Add(runway);
+                    }
+                });
 
                 /*DirectoryInfo folder = new DirectoryInfo(KSPUtil.ApplicationRootPath + "GameData/KerbalScienceFoundation/NavInstruments/Runways");
 
@@ -122,11 +125,11 @@ namespace NavInstruments.NavUtilLib
 
         public static class FlightData
         {
-			public static List<Runway> allRunways = new List<Runway>();
-			public static List<Runway> currentBodyRunways = new List<Runway>();
+            public static List<Runway> allRunways = new List<Runway>();
+            public static List<Runway> currentBodyRunways = new List<Runway>();
             public static int rwyIdx;
 
-			public static List<float> gsList = new List<float>();
+            public static List<float> gsList = new List<float>();
             public static int gsIdx;
 
             public static List<Runway> customRunways = new List<Runway>();
@@ -135,7 +138,7 @@ namespace NavInstruments.NavUtilLib
             public static Runway selectedRwy;
             public static float selectedGlideSlope;
             public static Vessel currentVessel;
-			public static CelestialBody currentBody = null;
+            public static CelestialBody currentBody = null;
             /// <summary>
             /// /////////
             /// </summary>
@@ -156,12 +159,13 @@ namespace NavInstruments.NavUtilLib
             public static float gsDeviation;
             public static float runwayHeading;
 
-			public static bool fallback = false;
+            public static bool fallback = false;
 
-			private static Waypoint prevWaypoint = null;
-            
-            public static bool isINSMode() {
-            	return (selectedRwy != null) && selectedRwy.isINSTarget;
+            private static Waypoint prevWaypoint = null;
+
+            public static bool isINSMode()
+            {
+                return (selectedRwy != null) && selectedRwy.isINSTarget;
             }
 
             public static void updateNavigationData()
@@ -169,42 +173,54 @@ namespace NavInstruments.NavUtilLib
                 //see if information is current
                 if (GetLastNavUpdateUT() != Planetarium.GetUniversalTime())
                 {
-					if (currentBody == null || FlightGlobals.currentMainBody != currentBody) {
-						rwyIdx = 0;
-						currentBody = FlightGlobals.currentMainBody;
-						currentBodyRunways.Clear();
-						for (int i = 0; i < allRunways.Count; i++) {
-							if (allRunways[i].body == currentBody.name) {
-								currentBodyRunways.Add(allRunways[i]);
-							}
-						}
-					}
+                    if (currentBody == null || FlightGlobals.currentMainBody != currentBody)
+                    {
+                        rwyIdx = 0;
+                        currentBody = FlightGlobals.currentMainBody;
+                        currentBodyRunways.Clear();
+                        for (int i = 0; i < allRunways.Count; i++)
+                        {
+                            if (allRunways[i].body == currentBody.name)
+                            {
+                                currentBodyRunways.Add(allRunways[i]);
+                            }
+                        }
+                    }
                     selectedGlideSlope = gsList[gsIdx];
-					if (currentBodyRunways.Count == 0) {
-						selectedRwy = null;
-						rwyIdx = 0;
-						fallback = true;
-					} else {
-						selectedRwy = currentBodyRunways[rwyIdx];
-						fallback = false;
-					}
-                    
+                    if (currentBodyRunways.Count == 0)
+                    {
+                        selectedRwy = null;
+                        rwyIdx = 0;
+                        fallback = true;
+                    }
+                    else
+                    {
+                        selectedRwy = currentBodyRunways[rwyIdx];
+                        fallback = false;
+                    }
+
 
                     //Since there seems to be no callback methods to determine whether waypoint has been set or changed, we have to refresh INS data on every update  
-					NavWaypoint navWaypoint = NavWaypoint.fetch;
-					if ((navWaypoint != null) && navWaypoint.IsActive && navWaypoint.Body == FlightGlobals.currentMainBody) {
-						Waypoint waypoint = null;
-						if (prevWaypoint != null && navWaypoint.IsUsing(prevWaypoint)) {
-							waypoint = prevWaypoint;
-						} else {
-							foreach (Waypoint wp in FinePrint.WaypointManager.Instance().Waypoints) {
-								if (navWaypoint.IsUsing(wp)) {
-									waypoint = wp;
-									break;
-								}
-							}
-							prevWaypoint = waypoint;
-						}
+                    NavWaypoint navWaypoint = NavWaypoint.fetch;
+                    if ((navWaypoint != null) && navWaypoint.IsActive && navWaypoint.Body == FlightGlobals.currentMainBody)
+                    {
+                        Waypoint waypoint = null;
+                        if (prevWaypoint != null && navWaypoint.IsUsing(prevWaypoint))
+                        {
+                            waypoint = prevWaypoint;
+                        }
+                        else
+                        {
+                            foreach (Waypoint wp in FinePrint.WaypointManager.Instance().Waypoints)
+                            {
+                                if (navWaypoint.IsUsing(wp))
+                                {
+                                    waypoint = wp;
+                                    break;
+                                }
+                            }
+                            prevWaypoint = waypoint;
+                        }
 
                         //If waypoint is fine then generate fake target runway every time
                         Runway insTarget = new Runway
@@ -223,25 +239,28 @@ namespace NavInstruments.NavUtilLib
                     }
 
                     currentVessel = FlightGlobals.ActiveVessel;
-                    if (selectedRwy != null) {
-						bearing = NavUtilLib.Utils.CalcBearingToBeacon(currentVessel, selectedRwy);
-						dme = NavUtilLib.Utils.CalcDistanceToBeacon(currentVessel, selectedRwy);
-						elevationAngle = NavUtilLib.Utils.CalcElevationAngle(currentVessel, selectedRwy);
-						//locDeviation = NavUtilLib.Utils.CalcLocalizerDeviation(bearing, selectedRwy);
-						locDeviation = (float)NavUtilLib.Utils.CalcLocalizerDeviation(currentVessel, selectedRwy);
-						gsDeviation = NavUtilLib.Utils.CalcGlideslopeDeviation(elevationAngle, selectedGlideSlope);
+                    if (selectedRwy != null)
+                    {
+                        bearing = NavUtilLib.Utils.CalcBearingToBeacon(currentVessel, selectedRwy);
+                        dme = NavUtilLib.Utils.CalcDistanceToBeacon(currentVessel, selectedRwy);
+                        elevationAngle = NavUtilLib.Utils.CalcElevationAngle(currentVessel, selectedRwy);
+                        //locDeviation = NavUtilLib.Utils.CalcLocalizerDeviation(bearing, selectedRwy);
+                        locDeviation = (float)NavUtilLib.Utils.CalcLocalizerDeviation(currentVessel, selectedRwy);
+                        gsDeviation = NavUtilLib.Utils.CalcGlideslopeDeviation(elevationAngle, selectedGlideSlope);
 
-						//
-						runwayHeading = (float)NavUtilLib.Utils.CalcProjectedRunwayHeading(currentVessel, selectedRwy);
-					} else {
-						bearing = 0;
-						dme = 0;
-						elevationAngle = 0;
-						locDeviation = 0;
-						gsDeviation = 0;
-						runwayHeading = 0;
-						selectedRwy = Runway.fallback();
-					}
+                        //
+                        runwayHeading = (float)NavUtilLib.Utils.CalcProjectedRunwayHeading(currentVessel, selectedRwy);
+                    }
+                    else
+                    {
+                        bearing = 0;
+                        dme = 0;
+                        elevationAngle = 0;
+                        locDeviation = 0;
+                        gsDeviation = 0;
+                        runwayHeading = 0;
+                        selectedRwy = Runway.fallback();
+                    }
 
                     SetLastNavUpdateUT();
                 }
@@ -289,22 +308,22 @@ namespace NavInstruments.NavUtilLib
             {
                 Log.Info("NavUtilLib: Updating materials...");
 
-				Materials.Instance.overlay          = NavUtilGraphics.loadMaterial("hsi_overlay", 640, 640);
-				Materials.Instance.pointer          = NavUtilGraphics.loadMaterial("hsi_gs_pointer", 640, 24);
-				Materials.Instance.headingCard      = NavUtilGraphics.loadMaterial("hsi_large_heading_card", 501, 501);
-				Materials.Instance.NDBneedle        = NavUtilGraphics.loadMaterial("hsi_NDB_needle", 15, 501);
-				Materials.Instance.course           = NavUtilGraphics.loadMaterial("hsi_course_needle", 221, 481);
-				Materials.Instance.localizer        = NavUtilGraphics.loadMaterial("hsi_course_deviation_needle", 5, 251);
-				Materials.Instance.mkrbcn           = NavUtilGraphics.loadMaterial("hsi_markerIndicator", 175, 180);
-				Materials.Instance.flag             = NavUtilGraphics.loadMaterial("hsi_flags", 64, 64);
-				Materials.Instance.back             = NavUtilGraphics.loadMaterial("hsi_back", 32, 32);
-				Materials.Instance.whiteFont        = NavUtilGraphics.loadMaterial("white_font", 256, 256);
-				Materials.Instance.AI_overlay       = NavUtilGraphics.loadMaterial("AI_OVERLAY", 640, 640);
-				Materials.Instance.AI_throttleBar   = NavUtilGraphics.loadMaterial("AI_THROTTLEBAR", 27, 164);
-				Materials.Instance.AI_VSILine       = NavUtilGraphics.loadMaterial("AI_VSILINE", 33, 4);
-				Materials.Instance.AI_Ladder        = NavUtilGraphics.loadMaterial("AI_LADDER", 906, 2048);
-				Materials.Instance.AI_Radar         = NavUtilGraphics.loadMaterial("AI_RADAR", 179, 179);
-				Materials.Instance.AI_RadarDial     = NavUtilGraphics.loadMaterial("AI_RADARDIAL", 86, 39);
+                Materials.Instance.overlay = NavUtilGraphics.loadMaterial("hsi_overlay", 640, 640);
+                Materials.Instance.pointer = NavUtilGraphics.loadMaterial("hsi_gs_pointer", 640, 24);
+                Materials.Instance.headingCard = NavUtilGraphics.loadMaterial("hsi_large_heading_card", 501, 501);
+                Materials.Instance.NDBneedle = NavUtilGraphics.loadMaterial("hsi_NDB_needle", 15, 501);
+                Materials.Instance.course = NavUtilGraphics.loadMaterial("hsi_course_needle", 221, 481);
+                Materials.Instance.localizer = NavUtilGraphics.loadMaterial("hsi_course_deviation_needle", 5, 251);
+                Materials.Instance.mkrbcn = NavUtilGraphics.loadMaterial("hsi_markerIndicator", 175, 180);
+                Materials.Instance.flag = NavUtilGraphics.loadMaterial("hsi_flags", 64, 64);
+                Materials.Instance.back = NavUtilGraphics.loadMaterial("hsi_back", 32, 32);
+                Materials.Instance.whiteFont = NavUtilGraphics.loadMaterial("white_font", 256, 256);
+                Materials.Instance.AI_overlay = NavUtilGraphics.loadMaterial("AI_OVERLAY", 640, 640);
+                Materials.Instance.AI_throttleBar = NavUtilGraphics.loadMaterial("AI_THROTTLEBAR", 27, 164);
+                Materials.Instance.AI_VSILine = NavUtilGraphics.loadMaterial("AI_VSILINE", 33, 4);
+                Materials.Instance.AI_Ladder = NavUtilGraphics.loadMaterial("AI_LADDER", 906, 2048);
+                Materials.Instance.AI_Radar = NavUtilGraphics.loadMaterial("AI_RADAR", 179, 179);
+                Materials.Instance.AI_RadarDial = NavUtilGraphics.loadMaterial("AI_RADARDIAL", 86, 39);
 
                 isLoaded = true;
             }
@@ -316,8 +335,8 @@ namespace NavInstruments.NavUtilLib
             public static Audio Instance => _instance ?? (_instance = new Audio());
 
             public static bool isLoaded = false;
-            
-            public readonly GameObject audioplayer; 
+
+            public readonly GameObject audioplayer;
             public readonly AudioSource markerAudio;
             //public static AudioSource playOnce;
             private readonly AudioClip audio_click;
@@ -325,7 +344,7 @@ namespace NavInstruments.NavUtilLib
             private readonly AudioClip audio_middle;
             private readonly AudioClip audio_inner;
 
-			private bool isPlaying = false;
+            private bool isPlaying = false;
 
             private Audio()
             {
@@ -363,45 +382,46 @@ namespace NavInstruments.NavUtilLib
             {
                 Log.Info("Click!");
                 this.markerAudio.PlayOneShot(this.audio_click, 0.5f);
-			}
+            }
 
-			public void PlayOuter()
+            public void PlayOuter()
             {
                 Log.Info("DME outer");
                 this.markerAudio.PlayOneShot(this.audio_outer, 0.8f);
-				this.isPlaying = true;
-			}
+                this.isPlaying = true;
+            }
 
-			public void PlayMiddle()
+            public void PlayMiddle()
             {
                 Log.Info("DME middle");
                 this.markerAudio.PlayOneShot(this.audio_middle, 0.5f);
-				this.isPlaying = true;
-			}
+                this.isPlaying = true;
+            }
 
-			public void PlayInner()
+            public void PlayInner()
             {
                 Log.Info("DME inner");
                 this.markerAudio.PlayOneShot(this.audio_inner, 0.5f);
-				this.isPlaying = true;
-			}
+                this.isPlaying = true;
+            }
 
             public const string MODDIR = "NavInstruments";
-            private AudioClip getAudio(string clipName) {
+            private AudioClip getAudio(string clipName)
+            {
                 //string path = KSPe.GameDB.Asset<KSPeHack>.Solve("Audio", clipName);
 
                 string path = MODDIR;
-                Log.Debug("Getting "+clipName+" from "+ path);
+                Log.Debug("Getting " + clipName + " from " + path);
                 return GameDatabase.Instance.GetAudioClip(path);
             }
 
-			public void Stop()
+            public void Stop()
             {
-				if (this.isPlaying)
-				{
-					this.markerAudio.Stop();
-					this.isPlaying = false;
-				}
+                if (this.isPlaying)
+                {
+                    this.markerAudio.Stop();
+                    this.isPlaying = false;
+                }
             }
         }
     }
