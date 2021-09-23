@@ -1,0 +1,6 @@
+NavUtilities software (code and compiled binaries) for Kerbal Space Program by kujuman, © 2014. All rights reserved.
+
+The artwork (models, sounds, textures) in this package is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+
+AnalogHSI prop model and textures by nli2work, used with permission
+Some bug fixes by Virindi (in particular, better high latitude support), used with permission

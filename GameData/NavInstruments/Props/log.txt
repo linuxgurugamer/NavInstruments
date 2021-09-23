@@ -1,0 +1,41 @@
+-----
+Folder infos : 
+MBM files count : 0
+TGA files count : 2
+PNG files count : 2
+Backup files count : 0
+-----
+-----
+Starting conversion of 4 files.
+    MBM count : 0.
+    TGA count : 2.
+    PNG count : 2.
+0 files excluded, 0 files without mipmaps. 0 files will skip normal detection.0 files will not be resized.
+-----
+LOG : Converting D:\Users\jbb\github\NavInstruments\GameData\NavInstruments\Props\AnalogueHSI.tga to D:\Users\jbb\github\NavInstruments\GameData\NavInstruments\Props\AnalogueHSI.dds
+    Format : Dxt5, normalmap : False, res: 512x512
+Flipping image...
+FlipImage took 4.50670003890991ms
+Image conversion took 100.330497741699ms
+---
+LOG : Converting D:\Users\jbb\github\NavInstruments\GameData\NavInstruments\Props\glass.tga to D:\Users\jbb\github\NavInstruments\GameData\NavInstruments\Props\glass.dds
+    Format : Dxt5, normalmap : False, res: 256x256
+Flipping image...
+FlipImage took 2.59260010719299ms
+Image conversion took 63.7379989624023ms
+---
+LOG : Converting D:\Users\jbb\github\NavInstruments\GameData\NavInstruments\Props\AnalogueHSI.png to D:\Users\jbb\github\NavInstruments\GameData\NavInstruments\Props\AnalogueHSI.dds
+    Format : Dxt1, normalmap : False, res: 512x512
+Flipping image...
+FlipImage took 2.71189999580383ms
+Image conversion took 113.23819732666ms
+---
+LOG : Converting D:\Users\jbb\github\NavInstruments\GameData\NavInstruments\Props\glass.png to D:\Users\jbb\github\NavInstruments\GameData\NavInstruments\Props\glass.dds
+    Format : Dxt5, normalmap : False, res: 256x256
+Flipping image...
+FlipImage took 0.912500023841858ms
+Image conversion took 58.8795013427734ms
+---
+-----
+Conversion done! 4 files processed in 429.288787841797ms.
+-----

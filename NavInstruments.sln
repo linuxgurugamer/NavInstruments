@@ -1,0 +1,70 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31129.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavUtilLib", "Source\NavUtilLib\NavUtilLib.csproj", "{647510F3-2DFF-43BE-9B31-86D83E540BB9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavUtilRPM", "Source\RPM\NavUtilRPM.csproj", "{C2C23187-A2E4-45FC-B0C4-3C0793B8594E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AircraftAutoPilot", "Source\AircraftAutoPilot\AircraftAutoPilot.csproj", "{0952AB77-FC7F-474E-9EA3-28C295229AD4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavUtilToolBar", "Source\StandAlone\NavUtilToolBar.csproj", "{837BDF09-DB12-45B3-B32A-0F557BAD2856}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnalogGauges", "Source\AnalogGauges\AnalogGauges.csproj", "{232FA638-F93A-4E4E-B70E-6A6C4ACA6B99}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DF43A6ED-94F4-4888-9689-14121D5ED31E}"
+	ProjectSection(SolutionItems) = preProject
+		buildRelease.bat = buildRelease.bat
+		CHANGE_LOG.md = CHANGE_LOG.md
+		CHANGES.md = CHANGES.md
+		clean.sh = clean.sh
+		CONFIG.inc = CONFIG.inc
+		deploy.bat = deploy.bat
+		deploy.sh = deploy.sh
+		INSTALL.md = INSTALL.md
+		jenkins.txt = jenkins.txt
+		LGG_ChangeLog.txt = LGG_ChangeLog.txt
+		LICENSE = LICENSE
+		LICENSE.ToolbarWrapper = LICENSE.ToolbarWrapper
+		NavInstruments.version = NavInstruments.version
+		NOTICE = NOTICE
+		pack.sh = pack.sh
+		publish.sh = publish.sh
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{647510F3-2DFF-43BE-9B31-86D83E540BB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{647510F3-2DFF-43BE-9B31-86D83E540BB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{647510F3-2DFF-43BE-9B31-86D83E540BB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{647510F3-2DFF-43BE-9B31-86D83E540BB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2C23187-A2E4-45FC-B0C4-3C0793B8594E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2C23187-A2E4-45FC-B0C4-3C0793B8594E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2C23187-A2E4-45FC-B0C4-3C0793B8594E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2C23187-A2E4-45FC-B0C4-3C0793B8594E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0952AB77-FC7F-474E-9EA3-28C295229AD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0952AB77-FC7F-474E-9EA3-28C295229AD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0952AB77-FC7F-474E-9EA3-28C295229AD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0952AB77-FC7F-474E-9EA3-28C295229AD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{837BDF09-DB12-45B3-B32A-0F557BAD2856}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{837BDF09-DB12-45B3-B32A-0F557BAD2856}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{837BDF09-DB12-45B3-B32A-0F557BAD2856}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{837BDF09-DB12-45B3-B32A-0F557BAD2856}.Release|Any CPU.Build.0 = Release|Any CPU
+		{232FA638-F93A-4E4E-B70E-6A6C4ACA6B99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{232FA638-F93A-4E4E-B70E-6A6C4ACA6B99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{232FA638-F93A-4E4E-B70E-6A6C4ACA6B99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{232FA638-F93A-4E4E-B70E-6A6C4ACA6B99}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CB34961F-7296-44E5-8F39-69485B648365}
+	EndGlobalSection
+EndGlobal
