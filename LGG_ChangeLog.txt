@@ -1,5 +1,9 @@
 ChangeLog
 
+0.8.0.1
+	Added additional runways, thanks to contribution from @Caerfinon
+	Added filtering of runways, to limit runways selectable to within configurable distance.  Accessed in the settings window (right-click on the toolbar button)
+
 0.8.0
 	Adoption by Linuxgurugamer
 	Added support for Toolbarcontroller

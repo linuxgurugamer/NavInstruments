@@ -28,7 +28,10 @@ namespace NavInstruments.NavUtilLib
         {
             System.Collections.Generic.List<Runway> r = new System.Collections.Generic.List<Runway>();
 
+            //
             // Leave this here for anyone putting configs into other directories
+            // Including configs which are conditional based on whether certain mods are installed or not
+            //
             foreach (ConfigNode node in GameDatabase.Instance.GetConfigNodes("Runway"))
                 r.Add(CreateRunwayFromNode(node));
 
@@ -65,7 +68,7 @@ namespace NavInstruments.NavUtilLib
         private static Runway CreateRunwayFromNode(ConfigNode node)
         {
             Log.Info("NavUtil: Found Runway Node");
-
+            
             try
             {
                 Runway rwy = Runway.createFrom(node);
@@ -125,11 +128,9 @@ namespace NavInstruments.NavUtilLib
         public static void LoadSettings()
         {
             Log.Info("NavUtil: Loading Settings");
-            //if (SETTINGS.IsLoadable) SETTINGS.Load();
             ConfigNode settings = ConfigNode.Load(DATADIR + SETTINGS_FILE);
             if (settings != null)
             {
-                //KSPe.ConfigNodeWithSteroids settings = SETTINGS.NodeWithSteroids;
                 GlobalVariables.Settings.hsiGUIscale = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "guiScale", 0.5f);
                 GlobalVariables.Settings.enableFineLoc = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "enableFineLoc", true);
                 GlobalVariables.Settings.enableWindowsInIVA = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "enableWindowsInIVA", true);
@@ -146,6 +147,13 @@ namespace NavInstruments.NavUtilLib
                 GlobalVariables.Settings.settingsGUI.x = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "settingsGUIX", 75f);
                 GlobalVariables.Settings.settingsGUI.y = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "settingsGUIY", 75f);
                 GlobalVariables.Settings.hideNavBallWaypoint = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "hideNavBallWaypoint", false);
+
+
+                GlobalVariables.Settings.hideRunwaysTooFar = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "hideRunwaysTooFar", true);
+                GlobalVariables.Settings.maxDistanceVisibleRunways = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "maxDistanceVisibleRunways", 100000f);
+
+
+
                 //GlobalVariables.Settings.settingsGUI.width = settings.GetValue<float>("settingsGUIWidth", ???f);
                 //GlobalVariables.Settings.settingsGUI.height = settings.GetValue<float>("settingsGUIHeight", ???f);
                 {
@@ -185,6 +193,12 @@ namespace NavInstruments.NavUtilLib
             sN.AddValue("settingsGUIY", GlobalVariables.Settings.settingsGUI.y);
             //sN.AddValue("settingsGUIWidth", GlobalVariables.Settings.settingsGUI.width);
             //sN.AddValue("settingsGUIHeight", GlobalVariables.Settings.settingsGUI.height);
+
+
+            sN.AddValue("hideRunwaysTooFar", GlobalVariables.Settings.hideRunwaysTooFar);
+            sN.AddValue("maxDistanceVisibleRunways", GlobalVariables.Settings.maxDistanceVisibleRunways);
+
+
             sN.AddValue("debug", Log.GetLogLevel() > KSP_Log.Log.LEVEL.INFO);
 
             sN.Save(DATADIR + SETTINGS_FILE);

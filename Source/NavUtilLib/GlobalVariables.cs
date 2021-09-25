@@ -37,6 +37,9 @@ namespace NavInstruments.NavUtilLib
 
             public static bool hideNavBallWaypoint = false;
 
+            public static bool hideRunwaysTooFar = true;
+            public static double maxDistanceVisibleRunways = 100000;
+
             public static int appInstance;
 
             public static NavUtilLibApp appReference;
@@ -408,8 +411,6 @@ namespace NavInstruments.NavUtilLib
             public const string MODDIR = "NavInstruments";
             private AudioClip getAudio(string clipName)
             {
-                //string path = KSPe.GameDB.Asset<KSPeHack>.Solve("Audio", clipName);
-
                 string path = MODDIR;
                 Log.Debug("Getting " + clipName + " from " + path);
                 return GameDatabase.Instance.GetAudioClip(path);

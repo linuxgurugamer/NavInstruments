@@ -322,6 +322,14 @@ namespace NavInstruments.NavUtilLib
 
            return index;
        }
-    
+
+        public static bool TooFarAway(Runway selectedRwy)
+        {
+            if (!GlobalVariables.Settings.hideRunwaysTooFar)
+                return false;
+
+            var distance  = NavUtilLib.Utils.CalcDistanceToBeacon(FlightGlobals.ActiveVessel, selectedRwy);
+            return distance > GlobalVariables.Settings.maxDistanceVisibleRunways;
+        }
     }
 }

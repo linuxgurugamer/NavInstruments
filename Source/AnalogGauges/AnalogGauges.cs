@@ -182,27 +182,26 @@ namespace NavInstruments.NavUtilLib.Analog
             numHelper = fDME % 1; //tenths
             float digit;
 
-            dme[0].localRotation = dmeInt[0] * Quaternion.AngleAxis((numHelper) * 360 + 18, Vector3.forward);
+            if (dme[0] != null)
+                dme[0].localRotation = dmeInt[0] * Quaternion.AngleAxis((numHelper) * 360 + 18, Vector3.forward);
 
             if (numHelper <= .9f) //not rolling over
             {
                 digit = (int)Math.Abs(fDME / 1 % 10);
                 dme[1].localRotation = dmeInt[1] * Quaternion.AngleAxis(
-    digit * 36 + 18,
-    Vector3.forward);
+                    digit * 36 + 18,
+                    Vector3.forward);
 
                 digit = (int)Math.Abs(fDME / 10 % 10);
                 dme[2].localRotation = dmeInt[2] * Quaternion.AngleAxis(
-    digit * 36 + 18,
-    Vector3.forward);
+                    digit * 36 + 18,
+                    Vector3.forward);
 
                 digit = (int)Math.Abs(fDME / 100 % 10);
                 dme[3].localRotation = dmeInt[3] *
                     Quaternion.AngleAxis(digit * 36 + 18,
-    Vector3.forward);
+                    Vector3.forward);
             }
-
-
             else
             {
                 digit = Math.Abs(fDME / 1 % 10);

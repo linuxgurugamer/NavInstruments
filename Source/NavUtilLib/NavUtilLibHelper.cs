@@ -1,7 +1,6 @@
 ﻿//NavUtilities by kujuman, © 2014. All Rights Reserved.
 
 using UnityEngine;
-//using Asset = KSPe.IO.Asset<NavInstruments.KSPeHack>;
 using var = NavInstruments.NavUtilLib.GlobalVariables;
 using ToolbarControl_NS;
 using static NavUtilLib.RegisterToolbar;
@@ -242,17 +241,22 @@ namespace NavInstruments.NavUtilLib
                 }
                 else
                 {
-
-                    if (Event.current.button == 0)
+                    int curIdx = var.FlightData.rwyIdx;
+                    do
                     {
-                        var.FlightData.rwyIdx++;
-                    }
-                    else
-                    {
-                        var.FlightData.rwyIdx--;
-                    }
-
-                    var.FlightData.rwyIdx = NavUtilLib.Utils.indexChecker(var.FlightData.rwyIdx, var.FlightData.currentBodyRunways.Count - 1, 0);
+                        if (Event.current.button == 0)
+                        {
+                            var.FlightData.rwyIdx++;
+                        }
+                        else
+                        {
+                            var.FlightData.rwyIdx--;
+                        }
+                        var.FlightData.rwyIdx = NavUtilLib.Utils.indexChecker(var.FlightData.rwyIdx, var.FlightData.currentBodyRunways.Count - 1, 0);
+                    } while (NavUtilLib.Utils.TooFarAway(var.FlightData.currentBodyRunways[var.FlightData.rwyIdx]) && 
+                                curIdx != var.FlightData.rwyIdx);
+                    if (curIdx == var.FlightData.rwyIdx)
+                        ScreenMessages.PostScreenMessage ("No runway within visible distance", 5f, ScreenMessageStyle.UPPER_CENTER);
                 }
             }
 
@@ -261,7 +265,7 @@ namespace NavInstruments.NavUtilLib
             else
                 rwyHover = false;
 
-        
+
             if (GUI.Button(gsBtn, new GUIContent("Next G/S", "gsOn")))
             {
                 if (Event.current.button == 0)

@@ -2,7 +2,6 @@
 
 
 using UnityEngine;
-//using Asset = KSPe.IO.Asset<NavInstruments.KSPeHack>;
 using mat = NavInstruments.NavUtilLib.GlobalVariables.Materials;
 using ToolbarControl_NS;
 using static NavUtilLib.RegisterToolbar;
