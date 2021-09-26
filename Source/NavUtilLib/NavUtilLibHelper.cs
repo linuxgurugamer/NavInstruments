@@ -137,12 +137,14 @@ namespace NavInstruments.NavUtilLib
             }
         }
 
+
         private void OnDraw()
         {
             Log.Debug("NavUtils: NavUtilLibApp.OnDraw()");
 
             Log.Debug("HSI: OnDraw()");
-            if (CameraManager.Instance.currentCameraMode == CameraManager.CameraMode.Flight || ((CameraManager.Instance.currentCameraMode == CameraManager.CameraMode.Internal || CameraManager.Instance.currentCameraMode == CameraManager.CameraMode.IVA) && GlobalVariables.Settings.enableWindowsInIVA))
+            if (CameraManager.Instance.currentCameraMode == CameraManager.CameraMode.Flight || 
+                ((CameraManager.Instance.currentCameraMode == CameraManager.CameraMode.Internal || CameraManager.Instance.currentCameraMode == CameraManager.CameraMode.IVA) && GlobalVariables.Settings.enableWindowsInIVA))
             {
                 if ((windowPosition.xMin + windowPosition.width) < 20) windowPosition.xMin = 20 - windowPosition.width;
                 if (windowPosition.yMin + windowPosition.height < 20) windowPosition.yMin = 20 - windowPosition.height;
@@ -336,7 +338,6 @@ namespace NavInstruments.NavUtilLib
 
             var.Settings.appInstance = this.GetInstanceID();
             var.Settings.appReference = this;
-
         }
 
         void Update()

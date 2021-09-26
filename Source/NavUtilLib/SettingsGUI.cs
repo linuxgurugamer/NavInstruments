@@ -166,7 +166,7 @@ namespace NavInstruments.NavUtilLib
             //GUI.Label(new Rect(125, 150, 90, 20), "Popup in IVA?");
 
             GUILayout.FlexibleSpace();
-            GlobalVariables.Settings.enableWindowsInIVA = GUILayout.Toggle(GlobalVariables.Settings.enableWindowsInIVA, "Popup in IVA");
+            GlobalVariables.Settings.enableWindowsInIVA = GUILayout.Toggle(GlobalVariables.Settings.enableWindowsInIVA, "Allow popup in IVA");
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
             GUILayout.BeginHorizontal();
