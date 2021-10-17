@@ -334,43 +334,52 @@ namespace NavInstruments.NavUtilLib
 
         public class Audio
         {
-            private static Audio _instance;
-            public static Audio Instance => _instance ?? (_instance = new Audio());
-
+            internal static Audio Instance = null;
+            //public static Audio Instance => _instance ?? (_instance = new Audio());
+            //public static Audio Instance;
             public static bool isLoaded = false;
 
-            public readonly GameObject audioplayer;
-            public readonly AudioSource markerAudio;
+            public GameObject audioplayer;
+            public AudioSource markerAudio;
             //public static AudioSource playOnce;
-            private readonly AudioClip audio_click;
-            private readonly AudioClip audio_outer;
-            private readonly AudioClip audio_middle;
-            private readonly AudioClip audio_inner;
+            private AudioClip audio_click;
+            private AudioClip audio_outer;
+            private AudioClip audio_middle;
+            private AudioClip audio_inner;
 
             private bool isPlaying = false;
 
-            private Audio()
+            public static void InitAudio(bool force = false)
             {
-                Log.Info("InitializingAudio...");
+                if (isLoaded & !force)
+                    return;
+                Log.Info("InitAudio");
+                Log.Info("Initializing Audio...");
+                if (Instance == null)
+                    Instance = new Audio();
+                Log.Info("Audio instantiated, initializing now");
 
-                audioplayer = new GameObject();
-                markerAudio = new AudioSource();
+                Instance.audioplayer = new GameObject();
+                Instance.markerAudio = new AudioSource();
                 //playOnce = new AudioSource();
-                this.audio_click = this.getAudio("click");
-                this.audio_outer = this.getAudio("outer");
-                this.audio_middle = this.getAudio("middle");
-                this.audio_inner = this.getAudio("inner");
+
+                Instance.audio_click = Instance.getAudio("click");
+                Instance.audio_outer = Instance.getAudio("outer");
+                Instance.audio_middle = Instance.getAudio("middle");
+                Instance.audio_inner = Instance.getAudio("inner");
 
                 try
                 {
-                    markerAudio = audioplayer.AddComponent<AudioSource>();
-                    markerAudio.volume = GameSettings.UI_VOLUME;
-                    markerAudio.panStereo = 0;
-                    markerAudio.dopplerLevel = 0;
-                    markerAudio.bypassEffects = true;
-                    markerAudio.loop = true;
-                    markerAudio.rolloffMode = AudioRolloffMode.Linear;
-                    //markerAudio.transform.SetParent(FlightCamera.fetch.mainCamera.transform);
+                    {
+                        Instance.markerAudio = Instance.audioplayer.AddComponent<AudioSource>();
+                        Instance.markerAudio.volume = GameSettings.UI_VOLUME;
+                        Instance.markerAudio.panStereo = 0;
+                        Instance.markerAudio.dopplerLevel = 0;
+                        Instance.markerAudio.bypassEffects = true;
+                        Instance.markerAudio.loop = true;
+                        Instance.markerAudio.rolloffMode = AudioRolloffMode.Linear;
+                        //markerAudio.transform.SetParent(FlightCamera.fetch.mainCamera.transform);
+                    }
                 }
                 catch (Exception e)
                 {
@@ -379,50 +388,89 @@ namespace NavInstruments.NavUtilLib
                 }
 
                 isLoaded = true;
+
+            }
+            private Audio()
+            {
+                Log.Info("Audio Instantiator");
+                //InitAudio();
             }
 
             public void PlayClick()
             {
                 Log.Info("Click!");
-                this.markerAudio.PlayOneShot(this.audio_click, 0.5f);
+                if (this.markerAudio == null)
+                    InitAudio(true);
+                if (this.markerAudio != null && this.audio_click != null)
+                    this.markerAudio.PlayOneShot(this.audio_click, 0.5f);
+                else
+                    if (this.markerAudio == null) Log.Error("Error doing PlayClick");
             }
 
             public void PlayOuter()
             {
                 Log.Info("DME outer");
-                this.markerAudio.PlayOneShot(this.audio_outer, 0.8f);
-                this.isPlaying = true;
+                if (this.markerAudio == null)
+                    InitAudio(true);
+                if (this.markerAudio != null && this.audio_outer != null)
+                {
+                    this.markerAudio.PlayOneShot(this.audio_outer, 0.8f);
+                    this.isPlaying = true;
+                }
+                else
+                    if (this.markerAudio == null) Log.Error("Error doing PlayOuter");
             }
 
             public void PlayMiddle()
             {
                 Log.Info("DME middle");
-                this.markerAudio.PlayOneShot(this.audio_middle, 0.5f);
-                this.isPlaying = true;
+                if (this.markerAudio == null)
+                    InitAudio(true);
+                if (this.markerAudio != null && this.audio_middle != null)
+                {
+                    this.markerAudio.PlayOneShot(this.audio_middle, 0.5f);
+                    this.isPlaying = true;
+                }
+                else
+                    if (this.markerAudio == null) Log.Error("Error doing PlayMiddle");
             }
 
             public void PlayInner()
             {
                 Log.Info("DME inner");
-                this.markerAudio.PlayOneShot(this.audio_inner, 0.5f);
-                this.isPlaying = true;
+                if (this.markerAudio == null)
+                    InitAudio(true);
+                if (this.markerAudio != null && this.audio_inner != null)
+                {
+                    this.markerAudio.PlayOneShot(this.audio_inner, 0.5f);
+                    this.isPlaying = true;
+                }
+                else
+                    if (this.markerAudio == null) Log.Error("Error doing PlayInner");
             }
 
             public const string MODDIR = "NavInstruments";
+            public const string AUDIODIR = "Audio";
             private AudioClip getAudio(string clipName)
             {
-                string path = MODDIR;
-                Log.Debug("Getting " + clipName + " from " + path);
-                return GameDatabase.Instance.GetAudioClip(path);
+                string path = MODDIR + "/" + AUDIODIR + "/" + clipName;
+                var a = GameDatabase.Instance.GetAudioClip(path);
+                if (a == null)
+                    Log.Info("getAudio, no audioclip found");
+                return a;
             }
 
             public void Stop()
             {
-                if (this.isPlaying)
+                if (this.markerAudio == null)
+                    InitAudio(true);
+                if (this.markerAudio != null && this.isPlaying)
                 {
                     this.markerAudio.Stop();
                     this.isPlaying = false;
                 }
+                else
+                    if (this.markerAudio == null) Log.Error("Error doing Stop");
             }
         }
     }

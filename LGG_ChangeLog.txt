@@ -1,5 +1,13 @@
 ChangeLog
 
+0.8.0.5
+	Fixed loading of settings file and other config files
+
+0.8.0.4
+	Fixed audio
+
+0.8.0.3
+	Added checks for null in Audio() class
 
 0.8.0.2
 	Fixed MM patches supplied by @caerfinon

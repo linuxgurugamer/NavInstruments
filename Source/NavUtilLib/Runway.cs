@@ -93,7 +93,8 @@ namespace NavInstruments.NavUtilLib
                 
             return runway;
         }
-        
+
+#if false
         public ConfigNode ToConfigNode(bool custom = false)
         {
             ConfigNode rN = new ConfigNode
@@ -118,5 +119,6 @@ namespace NavInstruments.NavUtilLib
 
             return rN;
         }
+#endif
     }
 }

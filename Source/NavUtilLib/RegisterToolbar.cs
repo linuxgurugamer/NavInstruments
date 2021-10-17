@@ -29,10 +29,12 @@ namespace NavUtilLib
           Log = new Log("NavInstruments", Log.LEVEL.ERROR);
 #endif
 
+
         }
         void Awake()
         {
             InitLog();
+            NavInstruments.NavUtilLib.GlobalVariables.Audio.InitAudio();
         }
 
         void Start()

@@ -128,41 +128,48 @@ namespace NavInstruments.NavUtilLib
         public static void LoadSettings()
         {
             Log.Info("NavUtil: Loading Settings");
-            ConfigNode settings = ConfigNode.Load(DATADIR + SETTINGS_FILE);
-            if (settings != null)
+            ConfigNode settingsFile = ConfigNode.Load(DATADIR + SETTINGS_FILE);
+            if (settingsFile != null)
             {
-                GlobalVariables.Settings.hsiGUIscale = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "guiScale", 0.5f);
-                GlobalVariables.Settings.enableFineLoc = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "enableFineLoc", true);
-                GlobalVariables.Settings.enableWindowsInIVA = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "enableWindowsInIVA", true);
-                GlobalVariables.Settings.loadCustom_rwyCFG = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "loadCustom_rwyCFG", true);
-                //GlobalVariables.Settings.useBlizzy78ToolBar = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "useBlizzy78ToolBar", false);
-                GlobalVariables.Settings.hsiPosition.x = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "hsiPositionX", 220f);
-                GlobalVariables.Settings.hsiPosition.y = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "hsiPositionY", 500f);
-                //GlobalVariables.Settings.hsiPosition.width = settings.GetValue<float>("hsiPositionWidth",???f);
-                //GlobalVariables.Settings.hsiPosition.height = settings.GetValue<float>("hsiPositionHeight", ???f);
-                GlobalVariables.Settings.rwyEditorGUI.x = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "rwyEditorGUIX", 387f);
-                GlobalVariables.Settings.rwyEditorGUI.y = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "rwyEditorGUIY", 132f);
-                //GlobalVariables.Settings.rwyEditorGUI.width = settings.GetValue<float>("rwyEditorGUIWidth", ???f);
-                //GlobalVariables.Settings.rwyEditorGUI.height = settings.GetValue<float>("rwyEditorGUIHeight", ???f);
-                GlobalVariables.Settings.settingsGUI.x = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "settingsGUIX", 75f);
-                GlobalVariables.Settings.settingsGUI.y = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "settingsGUIY", 75f);
-                GlobalVariables.Settings.hideNavBallWaypoint = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "hideNavBallWaypoint", false);
-
-
-                GlobalVariables.Settings.hideRunwaysTooFar = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "hideRunwaysTooFar", true);
-                GlobalVariables.Settings.maxDistanceVisibleRunways = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "maxDistanceVisibleRunways", 100000f);
-
-
-
-                //GlobalVariables.Settings.settingsGUI.width = settings.GetValue<float>("settingsGUIWidth", ???f);
-                //GlobalVariables.Settings.settingsGUI.height = settings.GetValue<float>("settingsGUIHeight", ???f);
+                ConfigNode settings = null;
+                if (settingsFile.TryGetNode("NavUtilSettings", ref settings))
                 {
+                    if (settings != null)
+                    {
+                        GlobalVariables.Settings.hsiGUIscale = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "guiScale", 0.5f);
+                        GlobalVariables.Settings.enableFineLoc = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "enableFineLoc", true);
+                        GlobalVariables.Settings.enableWindowsInIVA = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "enableWindowsInIVA", true);
+                        GlobalVariables.Settings.loadCustom_rwyCFG = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "loadCustom_rwyCFG", true);
+                        //GlobalVariables.Settings.useBlizzy78ToolBar = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "useBlizzy78ToolBar", false);
+                        GlobalVariables.Settings.hsiPosition.x = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "hsiPositionX", 220f);
+                        GlobalVariables.Settings.hsiPosition.y = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "hsiPositionY", 500f);
+                        //GlobalVariables.Settings.hsiPosition.width = settings.GetValue<float>("hsiPositionWidth",???f);
+                        //GlobalVariables.Settings.hsiPosition.height = settings.GetValue<float>("hsiPositionHeight", ???f);
+                        GlobalVariables.Settings.rwyEditorGUI.x = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "rwyEditorGUIX", 387f);
+                        GlobalVariables.Settings.rwyEditorGUI.y = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "rwyEditorGUIY", 132f);
+                        //GlobalVariables.Settings.rwyEditorGUI.width = settings.GetValue<float>("rwyEditorGUIWidth", ???f);
+                        //GlobalVariables.Settings.rwyEditorGUI.height = settings.GetValue<float>("rwyEditorGUIHeight", ???f);
+                        GlobalVariables.Settings.settingsGUI.x = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "settingsGUIX", 75f);
+                        GlobalVariables.Settings.settingsGUI.y = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "settingsGUIY", 75f);
+                        GlobalVariables.Settings.hideNavBallWaypoint = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "hideNavBallWaypoint", false);
+
+
+                        GlobalVariables.Settings.hideRunwaysTooFar = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "hideRunwaysTooFar", true);
+                        GlobalVariables.Settings.maxDistanceVisibleRunways = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "maxDistanceVisibleRunways", 100000f);
+
+
+
+                        //GlobalVariables.Settings.settingsGUI.width = settings.GetValue<float>("settingsGUIWidth", ???f);
+                        //GlobalVariables.Settings.settingsGUI.height = settings.GetValue<float>("settingsGUIHeight", ???f);
+                        {
 #if DEBUG
-                    bool debugMode = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "debug", true);
+                            bool debugMode = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "debug", true);
 #else
                 bool debugMode = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings,"debug", false);
 #endif
-                    Log.SetLevel(debugMode ? KSP_Log.Log.LEVEL.INFO : KSP_Log.Log.LEVEL.ERROR);
+                            Log.SetLevel(debugMode ? KSP_Log.Log.LEVEL.INFO : KSP_Log.Log.LEVEL.ERROR);
+                        }
+                    }
                 }
             }
         }
@@ -201,7 +208,9 @@ namespace NavInstruments.NavUtilLib
 
             sN.AddValue("debug", Log.GetLogLevel() > KSP_Log.Log.LEVEL.INFO);
 
-            sN.Save(DATADIR + SETTINGS_FILE);
+            ConfigNode file = new ConfigNode();
+            file.AddNode("NavUtilSettings", sN);
+            file.Save(DATADIR + SETTINGS_FILE);
         }
     }
 }
