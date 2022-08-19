@@ -1,5 +1,9 @@
 ChangeLog
 
+0.8.0.6
+	Thanks to forum user @JeremyKerman for this:
+		Runway Identifier still using the legacy "NavUtilRunway" format, corrected to use the current definition.
+
 0.8.0.5
 	Fixed loading of settings file and other config files
 
