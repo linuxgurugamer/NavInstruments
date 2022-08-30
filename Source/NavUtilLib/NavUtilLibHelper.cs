@@ -143,7 +143,7 @@ namespace NavInstruments.NavUtilLib
             Log.Debug("NavUtils: NavUtilLibApp.OnDraw()");
 
             Log.Debug("HSI: OnDraw()");
-            if (CameraManager.Instance.currentCameraMode == CameraManager.CameraMode.Flight || 
+            if (CameraManager.Instance.currentCameraMode == CameraManager.CameraMode.Flight ||
                 ((CameraManager.Instance.currentCameraMode == CameraManager.CameraMode.Internal || CameraManager.Instance.currentCameraMode == CameraManager.CameraMode.IVA) && GlobalVariables.Settings.enableWindowsInIVA))
             {
                 if ((windowPosition.xMin + windowPosition.width) < 20) windowPosition.xMin = 20 - windowPosition.width;
@@ -255,10 +255,10 @@ namespace NavInstruments.NavUtilLib
                             var.FlightData.rwyIdx--;
                         }
                         var.FlightData.rwyIdx = NavUtilLib.Utils.indexChecker(var.FlightData.rwyIdx, var.FlightData.currentBodyRunways.Count - 1, 0);
-                    } while (NavUtilLib.Utils.TooFarAway(var.FlightData.currentBodyRunways[var.FlightData.rwyIdx]) && 
+                    } while (NavUtilLib.Utils.TooFarAway(var.FlightData.currentBodyRunways[var.FlightData.rwyIdx]) &&
                                 curIdx != var.FlightData.rwyIdx);
                     if (curIdx == var.FlightData.rwyIdx)
-                        ScreenMessages.PostScreenMessage ("No runway within visible distance", 5f, ScreenMessageStyle.UPPER_CENTER);
+                        ScreenMessages.PostScreenMessage("No runway within visible distance", 5f, ScreenMessageStyle.UPPER_CENTER);
                 }
             }
 
@@ -340,6 +340,14 @@ namespace NavInstruments.NavUtilLib
             var.Settings.appReference = this;
         }
 
+        void OnDestroy()
+        {
+            GameEvents.onShowUI.Remove(ShowGUI);
+            GameEvents.onHideUI.Remove(HideGUI);
+            GameEvents.onGUIApplicationLauncherUnreadifying.Remove(onDestroy);
+            GameEvents.onGameSceneLoadRequested.Remove(onDestroy);
+        }
+
         void Update()
         {
 
@@ -405,20 +413,12 @@ namespace NavInstruments.NavUtilLib
             toolbarControl.OnDestroy();
             Destroy(toolbarControl);
 
-            //GameEvents.onGUIApplicationLauncherReady.Remove(AddButton);
+            Log.Debug("NavUtils: Destorying App 2");
 
-            //if (appButton != null)
-            {
-                Log.Debug("NavUtils: Destorying App 2");
+            //save settings to config
+            ConfigLoader.SaveSettings();
 
-
-                //save settings to config
-                ConfigLoader.SaveSettings();
-
-                var.Settings.hsiState = false;
-
-                //KSP.UI.Screens.ApplicationLauncher.Instance.RemoveModApplication(appButton);
-            }
+            var.Settings.hsiState = false;
         }
 
 

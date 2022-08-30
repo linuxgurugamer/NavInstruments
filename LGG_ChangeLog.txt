@@ -1,5 +1,8 @@
 ChangeLog
 
+0.8.0.7
+	Fixed small memory leak caused by not removing callbacks from GameEvents
+
 0.8.0.6
 	Thanks to forum user @JeremyKerman for this:
 		Runway Identifier still using the legacy "NavUtilRunway" format, corrected to use the current definition.
