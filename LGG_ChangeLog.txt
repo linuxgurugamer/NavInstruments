@@ -1,5 +1,8 @@
 ChangeLog
 
+0.8.0.8
+	Added InstallChecker.cs 
+
 0.8.0.7
 	Fixed small memory leak caused by not removing callbacks from GameEvents
 
@@ -27,6 +30,7 @@ ChangeLog
 	Adoption by Linuxgurugamer
 	Added support for Toolbarcontroller
 	Added support for ClickThroughBlocker
+	added AssemblyVersion.tt
 	Removed direct Blizzy toolbar support, replaced with ToolbarController
 	Removed direct stock toolbar support, replaced with ToolbarController
 	Added new dependeicies

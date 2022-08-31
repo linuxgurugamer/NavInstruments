@@ -66,6 +66,7 @@
     <Compile Include="GlobalVariables.cs" />
     <Compile Include="GlobalV_DisplayData.cs" />
     <Compile Include="GraphicUtils.cs" />
+    <Compile Include="InstallChecker.cs" />
     <Compile Include="NavUtilLibHelper.cs" />
     <Compile Include="RegisterToolbar.cs" />
     <Compile Include="RunwaysEditor.cs" />
