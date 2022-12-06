@@ -15,7 +15,7 @@ namespace NavInstruments.NavUtilLib
             "HeliPads.cfg"
         };
 
-        public const string DATADIR = "GameData/NavInstruments/PluginData/";
+        //public const string DATADIR = "GameData/NavInstruments/PluginData/";
         public const string SETTINGS_FILE = "settings.cfg";
         //public const string DEFAULTRUNWAYS_FILE = "defaultRunways.cfg";
         public const string CUSTOMRUNWAYS_FILE = "customRunways.cfg";

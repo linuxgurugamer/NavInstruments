@@ -18,6 +18,7 @@ namespace NavUtilLib
     [KSPAddon(KSPAddon.Startup.MainMenu, true)]
     public class RegisterToolbar : MonoBehaviour
     {
+        public static string DATADIR { get { return KSPUtil.ApplicationRootPath + "GameData/NavInstruments/PluginData/"; } }
 
         public static Log Log = null;
         public static void InitLog()
@@ -28,8 +29,6 @@ namespace NavUtilLib
 #else
           Log = new Log("NavInstruments", Log.LEVEL.ERROR);
 #endif
-
-
         }
         void Awake()
         {

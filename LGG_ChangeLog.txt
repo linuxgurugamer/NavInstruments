@@ -1,5 +1,8 @@
 ChangeLog
 
+0.8.0.9
+	Fixed issue with filepaths caused by new KSP launcher
+
 0.8.0.8
 	Added InstallChecker.cs 
 

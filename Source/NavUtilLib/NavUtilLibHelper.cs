@@ -301,7 +301,7 @@ namespace NavInstruments.NavUtilLib
         internal const string MODID = "NavInstruments";
         internal const string MODNAME = "NavInstruments";
 
-        public const string DATADIR = "GameData/NavInstruments/PluginData/";
+        //public const string DATADIR = "GameData/NavInstruments/PluginData/";
         public const string MODDIR = "NavInstruments/";
         public const string TOOLBARDIR = "PluginData/Textures/Toolbar/";
 

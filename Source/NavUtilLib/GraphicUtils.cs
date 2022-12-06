@@ -132,7 +132,7 @@ namespace NavInstruments.NavUtilLib
         }
 
 
-        public const string DATADIR = "GameData/NavInstruments/PluginData/";
+       // public const string DATADIR = "GameData/NavInstruments/PluginData/";
         public const string TEXTUREDIR = "Textures/";
         public static Material loadMaterial(string name, int width, int height)
 		{
