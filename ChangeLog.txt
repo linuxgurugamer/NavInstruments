@@ -1,5 +1,10 @@
 ChangeLog
 
+0.8.1 (unreleased)
+	Added saving position of the window
+	Added saving last status (open or closed)
+	Updated version file to use github for  new version info
+
 0.8.0.9
 	Fixed issue with filepaths caused by new KSP launcher
 

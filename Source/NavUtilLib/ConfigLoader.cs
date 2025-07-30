@@ -157,7 +157,9 @@ namespace NavInstruments.NavUtilLib
                         GlobalVariables.Settings.hideRunwaysTooFar = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "hideRunwaysTooFar", true);
                         GlobalVariables.Settings.maxDistanceVisibleRunways = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "maxDistanceVisibleRunways", 100000f);
 
-
+                        GlobalVariables.Settings.hsiState = SpaceTuxUtility.ConfigNodeUtils.SafeLoad(settings, "hsiState", false);
+                        Log.Info("LoadSettings.hsiState: " + GlobalVariables.Settings.hsiState); 
+                        
 
                         //GlobalVariables.Settings.settingsGUI.width = settings.GetValue<float>("settingsGUIWidth", ???f);
                         //GlobalVariables.Settings.settingsGUI.height = settings.GetValue<float>("settingsGUIHeight", ???f);
@@ -204,8 +206,9 @@ namespace NavInstruments.NavUtilLib
 
             sN.AddValue("hideRunwaysTooFar", GlobalVariables.Settings.hideRunwaysTooFar);
             sN.AddValue("maxDistanceVisibleRunways", GlobalVariables.Settings.maxDistanceVisibleRunways);
+            sN.AddValue("hsiState", GlobalVariables.Settings.hsiState);
 
-
+            
             sN.AddValue("debug", Log.GetLogLevel() > KSP_Log.Log.LEVEL.INFO);
 
             ConfigNode file = new ConfigNode();

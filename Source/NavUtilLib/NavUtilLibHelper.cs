@@ -1,10 +1,10 @@
 ﻿//NavUtilities by kujuman, © 2014. All Rights Reserved.
 
-using UnityEngine;
-using var = NavInstruments.NavUtilLib.GlobalVariables;
-using ToolbarControl_NS;
-using static NavUtilLib.RegisterToolbar;
 using ClickThroughFix;
+using ToolbarControl_NS;
+using UnityEngine;
+using static NavUtilLib.RegisterToolbar;
+using var = NavInstruments.NavUtilLib.GlobalVariables;
 
 namespace NavInstruments
 {
@@ -65,7 +65,7 @@ namespace NavInstruments.NavUtilLib
 
         //private IButton toolbarButton = null;
 
-        ToolbarControl toolbarControl;
+        static ToolbarControl toolbarControl;
 
 
         private Rect windowPosition;
@@ -140,12 +140,12 @@ namespace NavInstruments.NavUtilLib
 
         private void OnDraw()
         {
-            Log.Debug("NavUtils: NavUtilLibApp.OnDraw()");
-
             Log.Debug("HSI: OnDraw()");
             if (CameraManager.Instance.currentCameraMode == CameraManager.CameraMode.Flight ||
                 ((CameraManager.Instance.currentCameraMode == CameraManager.CameraMode.Internal || CameraManager.Instance.currentCameraMode == CameraManager.CameraMode.IVA) && GlobalVariables.Settings.enableWindowsInIVA))
             {
+                // Save current rect before drawing
+
                 if ((windowPosition.xMin + windowPosition.width) < 20) windowPosition.xMin = 20 - windowPosition.width;
                 if (windowPosition.yMin + windowPosition.height < 20) windowPosition.yMin = 20 - windowPosition.height;
                 if (windowPosition.xMin > Screen.width - 20) windowPosition.xMin = Screen.width - 20;
@@ -157,7 +157,20 @@ namespace NavInstruments.NavUtilLib
                      (int)(var.Settings.hsiPosition.height * var.Settings.hsiGUIscale)
                      );
 
+                Log.Info("OnDraw, windowPosiion: " + windowPosition);
+                var previousRect = windowPosition;
                 windowPosition = ClickThruBlocker.GUIWindow(-471466245, windowPosition, OnWindow, "Horizontal Situation Indicator");
+                
+                Log.Info("previousRect: " + previousRect + ", windowPosition: " + windowPosition + ", comparision: " + (previousRect == windowPosition));
+
+                // Detect if position changed
+                if (windowPosition.position != previousRect.position)
+                {
+                    var.Settings.hsiPosition.x = windowPosition.x;
+                    var.Settings.hsiPosition.y = windowPosition.y;
+
+                    ConfigLoader.SaveSettings();
+                }
             }
             Log.Debug(windowPosition.ToString());
         }
@@ -222,11 +235,8 @@ namespace NavInstruments.NavUtilLib
 
             if (GUI.Button(closeBtn, new GUIContent("CloseBtn", "closeOn")))
             {
-                //displayHSI();
                 Log.Debug("CloseHSI");
-                //appButton.SetFalse(true);
                 toolbarControl.SetFalse(true);
-                //goto CloseWindow;
             }
 
             if (GUI.tooltip == "closeOn")
@@ -311,23 +321,26 @@ namespace NavInstruments.NavUtilLib
 
             //load settings to config
             ConfigLoader.LoadSettings();
+            Log.Info("NavutilLibHelper.Awake.hsiState: " + GlobalVariables.Settings.hsiState);
 
-
-            toolbarControl = gameObject.AddComponent<ToolbarControl>();
-            toolbarControl.AddToAllToolbars(null,
-                    null,
-                    onAppLaunchHoverOn,
-                    onAppLaunchHoverOff,
-                    onAppLaunchEnable,
-                    onAppLaunchDisable,
-                    KSP.UI.Screens.ApplicationLauncher.AppScenes.FLIGHT,
-                    MODID,
-                    "NavLibButton",
-                    MODDIR + TOOLBARDIR + "toolbarButton3838",
-                    MODDIR + TOOLBARDIR + "toolbarButton",
-                    MODNAME
-                );
-            toolbarControl.AddLeftRightClickCallbacks(onAppLaunchToggle, SettingsGUI.startSettingsGUI);
+            if (toolbarControl == null)
+            {
+                toolbarControl = gameObject.AddComponent<ToolbarControl>();
+                toolbarControl.AddToAllToolbars(null,
+                        null,
+                        onAppLaunchHoverOn,
+                        onAppLaunchHoverOff,
+                        onAppLaunchEnable,
+                        onAppLaunchDisable,
+                        KSP.UI.Screens.ApplicationLauncher.AppScenes.FLIGHT,
+                        MODID,
+                        "NavLibButton",
+                        MODDIR + TOOLBARDIR + "toolbarButton3838",
+                        MODDIR + TOOLBARDIR + "toolbarButton",
+                        MODNAME
+                    );
+                toolbarControl.AddLeftRightClickCallbacks(onAppLaunchToggle, SettingsGUI.startSettingsGUI);
+            }
             GameEvents.onGUIApplicationLauncherUnreadifying.Add(onDestroy);
             GameEvents.onGameSceneLoadRequested.Add(onDestroy);
 
@@ -338,6 +351,13 @@ namespace NavInstruments.NavUtilLib
 
             var.Settings.appInstance = this.GetInstanceID();
             var.Settings.appReference = this;
+
+            if (GlobalVariables.Settings.hsiState)
+            {
+                GlobalVariables.Settings.hsiState = false;
+                onAppLaunchToggle();
+            }
+
         }
 
         void OnDestroy()
@@ -409,48 +429,20 @@ namespace NavInstruments.NavUtilLib
 
         public void onDestroy(GameScenes g)
         {
-            Log.Debug("NavUtils: Destorying App 1");
-            toolbarControl.OnDestroy();
-            Destroy(toolbarControl);
+            //Log.Debug("NavUtils: Destorying App 1");
+            //toolbarControl.OnDestroy();
+            //Destroy(toolbarControl);
 
-            Log.Debug("NavUtils: Destorying App 2");
+            Log.Debug("NavUtils: Destroying App 2");
 
             //save settings to config
             ConfigLoader.SaveSettings();
 
-            var.Settings.hsiState = false;
+            //var.Settings.hsiState = false;
         }
 
 
 
-        //void OnGUIReady()
-        //{
-        //    Log.Debug("NavUtils: NavUtilLibApp.OnGUIReady()");
-
-        //    if (KSP.UI.Screens.ApplicationLauncher.Ready && !var.Settings.useBlizzy78ToolBar)
-        //    {
-        //        appButton = KSP.UI.Screens.ApplicationLauncher.Instance.AddModApplication(
-        //            onAppLaunchToggleOn,
-        //            onAppLaunchToggleOff,
-        //            onAppLaunchHoverOn,
-        //            onAppLaunchHoverOff,
-        //            onAppLaunchEnable,
-        //            onAppLaunchDisable,
-        //            KSP.UI.Screens.ApplicationLauncher.AppScenes.FLIGHT,
-        //            (Texture)GameDatabase.Instance.GetTexture("KerbalScienceFoundation/NavInstruments/CommonTextures/toolbarButton3838", false)
-        //          );
-        //        ;
-        //    }
-
-        //    app = this;
-
-        //    //panel = new UIInteractivePanel();
-        //    //panel.draggable = true;
-        //    //panel.index = 1;
-
-
-
-        //}
 
         void onAppLaunchToggle()
         {
@@ -465,18 +457,6 @@ namespace NavInstruments.NavUtilLib
 
 
 
-#if false
-        void onAppLaunchToggleOff()
-        {
-            Log.Debug("NavUtils: onAppLaunchToggleOff");
-            if (isHovering && Event.current.alt)
-                NavUtilLib.SettingsGUI.startSettingsGUI();
-            else
-                displayHSI();
-
-        }
-
-#endif
         void onAppLaunchHoverOn()
         {
             Log.Debug("onHover");

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31129.286
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36301.6 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavUtilLib", "Source\NavUtilLib\NavUtilLib.csproj", "{647510F3-2DFF-43BE-9B31-86D83E540BB9}"
 EndProject
@@ -16,20 +16,20 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DF43A6ED-94F4-4888-9689-14121D5ED31E}"
 	ProjectSection(SolutionItems) = preProject
 		buildRelease.bat = buildRelease.bat
-		CHANGE_LOG.md = CHANGE_LOG.md
-		CHANGES.md = CHANGES.md
+		ChangeLog.txt = ChangeLog.txt
 		clean.sh = clean.sh
 		CONFIG.inc = CONFIG.inc
 		deploy.bat = deploy.bat
 		deploy.sh = deploy.sh
 		INSTALL.md = INSTALL.md
 		jenkins.txt = jenkins.txt
-		LGG_ChangeLog.txt = LGG_ChangeLog.txt
 		LICENSE = LICENSE
 		LICENSE.ToolbarWrapper = LICENSE.ToolbarWrapper
 		NavInstruments.version = NavInstruments.version
+		LisaisCHANGES.md = LisaisCHANGES.md
 		NOTICE = NOTICE
 		pack.sh = pack.sh
+		oldCHANGE_LOG.md = oldCHANGE_LOG.md
 		publish.sh = publish.sh
 		README.md = README.md
 	EndProjectSection

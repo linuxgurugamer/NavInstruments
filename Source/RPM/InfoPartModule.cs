@@ -18,6 +18,7 @@ namespace NavInstruments.NavUtilRPM
 
             //load settings from config
             NavUtilLib.ConfigLoader.LoadSettings();
+            Log.Info("NavUtilRPM.Awake.hsiState: " + NavUtilLib.GlobalVariables.Settings.hsiState);
 
             //load navigation data
             if (!NavUtilLib.GlobalVariables.Settings.navAidsIsLoaded)
