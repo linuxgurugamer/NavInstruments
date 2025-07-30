@@ -91,36 +91,6 @@ namespace NavInstruments.NavUtilLib
                     }
                 });
 
-                /*DirectoryInfo folder = new DirectoryInfo(KSPUtil.ApplicationRootPath + "GameData/KerbalScienceFoundation/NavInstruments/Runways");
-
-                if (folder.Exists)
-                {
-                    //FileInfo[] addlNavAidFiles = folder.GetFiles("*.rwy"); //this works great :D
-                    FileInfo[] addlNavAidFiles = folder.GetFiles("*");
-
-
-                    foreach (FileInfo f in addlNavAidFiles)
-                    {
-                        if ((f.Name.EndsWith("_rwy.cfg") && loadCustom_rwyCFG)|| f.Name.EndsWith(".rwy"))
-                        {
-
-                            if (enableDebugging)  Log.Info("NavUtil: found file " + f.Name.ToString());
-
-                            if (f.Name == "custom.rwy" || (f.Name == "custom_rwy.cfg" && GlobalVariables.Settings.loadCustom_rwyCFG))
-                            {
-                                FlightData.customRunways.AddRange(NavUtilLib.ConfigLoader.GetRunwayListFromConfig("GameData/KerbalScienceFoundation/NavInstruments/Runways/" + f.Name));
-                                if (enableDebugging)  Log.Info("NavUtil: Found " + f.Name + " with " + FlightData.customRunways.Count + " runway definitions");
-
-                            }
-
-                            if (enableDebugging) Log.Info("NavUtil: Found " + f.Name);
-
-                            FlightData.rwyList.AddRange(NavUtilLib.ConfigLoader.GetRunwayListFromConfig("GameData/KerbalScienceFoundation/NavInstruments/Runways/" + f.Name));
-                            //! FlightData.gsList.AddRange(NavUtilLib.ConfigLoader.GetGlideslopeListFromConfig("GameData/KerbalScienceFoundation/NavInstruments/Runways/" + f.Name));
-                            //}
-                        }
-                    }
-                }*/
 
                 navAidsIsLoaded = true;
             }
@@ -307,6 +277,7 @@ namespace NavInstruments.NavUtilLib
             public Material AI_Radar = null;
             public Material AI_RadarDial = null;
 
+            #region NO_LOCALIZATION
             public static void loadMaterials()
             {
                 Log.Info("NavUtilLib: Updating materials...");
@@ -331,6 +302,7 @@ namespace NavInstruments.NavUtilLib
                 isLoaded = true;
             }
         }
+        #endregion
 
         public class Audio
         {
@@ -363,10 +335,13 @@ namespace NavInstruments.NavUtilLib
                 Instance.markerAudio = new AudioSource();
                 //playOnce = new AudioSource();
 
+                #region NO_LOCALIZATION
+
                 Instance.audio_click = Instance.getAudio("click");
                 Instance.audio_outer = Instance.getAudio("outer");
                 Instance.audio_middle = Instance.getAudio("middle");
                 Instance.audio_inner = Instance.getAudio("inner");
+                #endregion
 
                 try
                 {

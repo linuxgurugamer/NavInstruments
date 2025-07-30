@@ -1,4 +1,5 @@
-﻿using System;
+using KSP.Localization;
+using System;
 using UnityEngine;
 using ClickThroughFix;
 
@@ -33,7 +34,7 @@ namespace NavInstruments.NavUtilLib
 			if (winPos.yMin + winPos.height < 20) winPos.yMin = 20 - winPos.height;
 			if (winPos.xMin > Screen.width - 20) winPos.xMin = Screen.width - 20;
 			if (winPos.yMin > Screen.height - 20) winPos.yMin = Screen.height - 20;
-				winPos = ClickThruBlocker.GUIWindow(WINDOW_ID, winPos, OnWindow, "Runway list");
+				winPos = ClickThruBlocker.GUIWindow(WINDOW_ID, winPos, OnWindow, Localizer.Format("#LOC_NavInst_Runway_list"));
 		}
 
 		public static void OnWindow(int winId) {
@@ -47,7 +48,7 @@ namespace NavInstruments.NavUtilLib
 				}
 			}
 			GUI.EndScrollView();
-			if (GUI.Button(new Rect(60, 320, 60, 30), "Close")) {
+			if (GUI.Button(new Rect(60, 320, 60, 30), Localizer.Format("#LOC_NavInst_Close"))) {
 				isActive = false;
 			}
 			GUI.DragWindow();

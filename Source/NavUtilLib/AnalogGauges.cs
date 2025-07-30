@@ -1,4 +1,6 @@
-﻿#if false
+﻿#region NO_LOCALIZATION
+
+#if false
 using System;
 using UnityEngine;
 using System.Linq;
@@ -556,3 +558,4 @@ namespace NavInstruments.NavUtilLib.Analog
 }
 
 #endif
+#endregion

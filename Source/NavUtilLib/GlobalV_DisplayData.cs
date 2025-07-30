@@ -1,5 +1,6 @@
-﻿//NavUtilities by kujuman, © 2014. All Rights Reserved.
+//NavUtilities by kujuman, © 2014. All Rights Reserved.
 
+using KSP.Localization;
 using System;
 using UnityEngine;
 
@@ -124,14 +125,14 @@ namespace NavInstruments.NavUtilLib
                     }
                     //if fineLoc == false then we use course guidance mode. In this mode each tick on Loc is 1°. in fine guidance mode each tick is 0.25°
 
-                    string locMode = "Loc→Coarse Mode";
+                    string locMode = Localizer.Format("#LOC_NavInst_Loc_Coarse_Mode");
 
                     if (fineLoc && Mathf.Abs(NavUtilLib.GlobalVariables.FlightData.locDeviation) < 0.75f)
                     {
                         deviationCorrection *= 4; //we're magnifying the needle deflection, which increases sensetivity
 
                         //now to inform the user that fine control is enabled
-                        locMode = "Loc→Fine Mode";
+                        locMode = Localizer.Format("#LOC_NavInst_Loc_Fine_Mode");
 
                         //change the color of the localizer needle/font?
                         NavUtilLib.GlobalVariables.Materials.Instance.whiteFont.color = Color.magenta;
@@ -341,8 +342,8 @@ namespace NavInstruments.NavUtilLib
                 screen = NavUtilLib.NavUtilGraphics.drawMovedImage(var.Materials.Instance.AI_overlay, screen, new Vector2(0, 0), false, false);
 
                 NavUtilLib.TextWriter.addTextToRT(
-					screen, "Pitch: " +
-					string.Format("{0:F0}", pitch) + "   Roll: " + string.Format("{0:F0}", roll),
+					screen, Localizer.Format("#LOC_NavInst_Pitch") +
+					string.Format("{0}" + Localizer.Format("#LOC_NavInst_F0") + "}", pitch) + "   " + Localizer.Format("#LOC_NavInst_Roll") + string.Format("{0}" + Localizer.Format("#LOC_NavInst_F0") + "}", roll),
 					new Vector2(20 + 2, 600 + 2),
 					NavUtilLib.GlobalVariables.Materials.Instance.whiteFont,
 					.5f);
@@ -380,7 +381,7 @@ namespace NavInstruments.NavUtilLib
                 //DigitalSpeed
                 NavUtilLib.TextWriter.addTextToRT(
                     screen,
-                    string.Format("{0:F0}", (float)var.FlightData.currentVessel.srfSpeed),
+                    string.Format("{0}" + Localizer.Format("#LOC_NavInst_F0") + "}", (float)var.FlightData.currentVessel.srfSpeed),
                     new Vector2(111+2, 305 + 2),
                     NavUtilLib.GlobalVariables.Materials.Instance.whiteFont,
                     .5f);
@@ -388,7 +389,7 @@ namespace NavInstruments.NavUtilLib
                 //DigitalAlt
                 NavUtilLib.TextWriter.addTextToRT(
                     screen,
-                    string.Format("{0:F0}", (float)var.FlightData.currentVessel.altitude),
+                    string.Format("{0}" + Localizer.Format("#LOC_NavInst_F0") + "}", (float)var.FlightData.currentVessel.altitude),
                     new Vector2(464 + 2, 305 + 2),
                     NavUtilLib.GlobalVariables.Materials.Instance.whiteFont,
                     .5f);

@@ -1,19 +1,19 @@
-﻿//NavUtilities by kujuman, © 2014. All Rights Reserved.
+//NavUtilities by kujuman, © 2014. All Rights Reserved.
 
+using ClickThroughFix;
+using KSP.Localization;
 using System;
 using UnityEngine;
-using ClickThroughFix;
-
-using var = NavInstruments.NavUtilLib.GlobalVariables;
 using Rwy = NavInstruments.NavUtilLib.GlobalVariables.FlightData;
+using var = NavInstruments.NavUtilLib.GlobalVariables;
 
 namespace NavInstruments.NavUtilGUI
 {
     public static class RunwaysEditor // : Monobehaviour
-{
+    {
         private static Rect windowPos;
 
-        private static Vector2 rwyListVector =  new Vector2(0,0);
+        private static Vector2 rwyListVector = new Vector2(0, 0);
         private static float rwyListLength = 0;
 
         private static NavUtilLib.Runway tempRwy = new NavUtilLib.Runway();
@@ -49,7 +49,7 @@ namespace NavInstruments.NavUtilGUI
             if (windowPos.yMin + windowPos.height < 20) windowPos.yMin = 20 - windowPos.height;
             if (windowPos.xMin > Screen.width - 20) windowPos.xMin = Screen.width - 20;
             if (windowPos.yMin > Screen.height - 20) windowPos.yMin = Screen.height - 20;
-            windowPos = ClickThruBlocker.GUIWindow(450448971, windowPos, OnWindow, "Runway Customizer");
+            windowPos = ClickThruBlocker.GUIWindow(450448971, windowPos, OnWindow, Localizer.Format("#LOC_NavInst_Runway_Customizer"));
         }
 
         private static void OnWindow(int winID)
@@ -58,7 +58,7 @@ namespace NavInstruments.NavUtilGUI
 
             rwyListVector = GUI.BeginScrollView(new Rect(10, 20, 150, 270), rwyListVector, new Rect(0, 0, 135, rwyListLength + 35));
 
-            if (!isNewRwy && GUI.Button(new Rect(2, 0, 130, 30), "Create Runway"))
+            if (!isNewRwy && GUI.Button(new Rect(2, 0, 130, 30), Localizer.Format("#LOC_NavInst_Create_Runway")))
             {
                 tempRwy = new NavUtilLib.Runway();
                 isNewRwy = true;
@@ -88,19 +88,19 @@ namespace NavInstruments.NavUtilGUI
             GUI.EndScrollView();
             //begin runway info area
 
-            GUI.Label(new Rect(170, 20, 200, 20), "Runway Ident");
+            GUI.Label(new Rect(170, 20, 200, 20), Localizer.Format("#LOC_NavInst_Runway_Ident"));
 
-            GUI.Label(new Rect(170, 70, 150, 20), "Runway Heading");
+            GUI.Label(new Rect(170, 70, 150, 20), Localizer.Format("#LOC_NavInst_Runway_Heading"));
 
-            GUI.Label(new Rect(170, 120, 150, 20), "Runway Elevation (m)");
+            GUI.Label(new Rect(170, 120, 150, 20), Localizer.Format("#LOC_NavInst_Runway_Elevation_m"));
 
 
 
-            GUI.Label(new Rect(170, 185, 240, 20), "Marker distance from current point (m)");
+            GUI.Label(new Rect(170, 185, 240, 20), Localizer.Format("#LOC_NavInst_Marker_distance_from_curr"));
 
-            GUI.Label(new Rect(190, 200, 60, 20), " Inner");
-            GUI.Label(new Rect(260, 200, 60, 20), " Middle");
-            GUI.Label(new Rect(330, 200, 60, 20), " Outer");
+            GUI.Label(new Rect(190, 200, 60, 20), " " + Localizer.Format("#LOC_NavInst_Inner"));
+            GUI.Label(new Rect(260, 200, 60, 20), " " + Localizer.Format("#LOC_NavInst_Middle"));
+            GUI.Label(new Rect(330, 200, 60, 20), " " + Localizer.Format("#LOC_NavInst_Outer"));
 
 
             //isNewRwy
@@ -109,16 +109,16 @@ namespace NavInstruments.NavUtilGUI
             //only difference is textbox vs label
             if (isNewRwy)
             {
-                GUI.Label(new Rect(340, 70, 85, 20), "Auto Hdg?");
+                GUI.Label(new Rect(340, 70, 85, 20), Localizer.Format("#LOC_NavInst_Auto_Hdg"));
                 useAutoHdg = GUI.Toggle(new Rect(350, 90, 20, 20), useAutoHdg, "");
 
-                GUI.Label(new Rect(340, 120, 85, 20), "Auto Elevation?");
+                GUI.Label(new Rect(340, 120, 85, 20), Localizer.Format("#LOC_NavInst_Auto_Elevation"));
                 useAutoElevation = GUI.Toggle(new Rect(350, 140, 20, 20), useAutoElevation, "");
 
 
                 tempRwy.ident = GUI.TextField(new Rect(170, 40, 200, 20), tempRwy.ident);
 
-                GUI.Label(new Rect(340, 70, 85, 20), "Auto Hdg?");
+                GUI.Label(new Rect(340, 70, 85, 20), Localizer.Format("#LOC_NavInst_Auto_Hdg"));
                 useAutoHdg = GUI.Toggle(new Rect(350, 90, 20, 20), useAutoHdg, "");
                 if (useAutoHdg)
                 {
@@ -131,13 +131,13 @@ namespace NavInstruments.NavUtilGUI
                     tempRwy.hdg = Convert.ToSingle(GUI.TextField(new Rect(170, 90, 150, 20), Convert.ToString(tempRwy.hdg)));
                 }
 
-                GUI.Label(new Rect(340, 120, 85, 20), "Auto Alt?");
+                GUI.Label(new Rect(340, 120, 85, 20), Localizer.Format("#LOC_NavInst_Auto_Alt"));
                 useAutoElevation = GUI.Toggle(new Rect(350, 140, 20, 20), useAutoElevation, "");
                 if (useAutoElevation)
                 {
                     tempRwy.altMSL = (float)Math.Round(FlightGlobals.ActiveVessel.altitude, 1);
 
-                    GUI.Label(new Rect(170, 140, 150, 20), Convert.ToString(tempRwy.altMSL) + "m");
+                    GUI.Label(new Rect(170, 140, 150, 20), Convert.ToString(tempRwy.altMSL) + "m"); // NO_LOCALIZATION
                 }
                 else
                 {
@@ -146,16 +146,16 @@ namespace NavInstruments.NavUtilGUI
 
 
 
-                GUI.Label(new Rect(170, 165, 120, 20), "Use Marker Becons?");
-                                makeMarkers = GUI.Toggle(new Rect(350, 168, 20, 20), makeMarkers, "");
+                GUI.Label(new Rect(170, 165, 120, 20), Localizer.Format("#LOC_NavInst_Use_Marker_Becons"));
+                makeMarkers = GUI.Toggle(new Rect(350, 168, 20, 20), makeMarkers, "");
 
 
-                if(makeMarkers)
+                if (makeMarkers)
                 {
                     tempRwy.innerMarkerDist = Convert.ToSingle(GUI.TextField(new Rect(190, 220, 60, 20), Convert.ToString(tempRwy.innerMarkerDist)));
 
-                    tempRwy.middleMarkerDist=  Convert.ToSingle( GUI.TextField(new Rect(260, 220, 60, 20), Convert.ToString(tempRwy.middleMarkerDist)));
-                    tempRwy.outerMarkerDist =  Convert.ToSingle( GUI.TextField(new Rect(330, 220, 60, 20), Convert.ToString(tempRwy.outerMarkerDist)));
+                    tempRwy.middleMarkerDist = Convert.ToSingle(GUI.TextField(new Rect(260, 220, 60, 20), Convert.ToString(tempRwy.middleMarkerDist)));
+                    tempRwy.outerMarkerDist = Convert.ToSingle(GUI.TextField(new Rect(330, 220, 60, 20), Convert.ToString(tempRwy.outerMarkerDist)));
 
                     if (tempRwy.innerMarkerDist < -500)
                         tempRwy.innerMarkerDist = -500;
@@ -174,27 +174,27 @@ namespace NavInstruments.NavUtilGUI
                 GUI.Label(new Rect(170, 40, 200, 20), tempRwy.ident);
 
                 GUI.Label(new Rect(170, 90, 150, 20), tempRwy.hdg.ToString() + "°");
-                GUI.Label(new Rect(170, 140, 150, 20), Convert.ToString(tempRwy.altMSL) + "m");
+                GUI.Label(new Rect(170, 140, 150, 20), Convert.ToString(tempRwy.altMSL) + "m"); // NO_LOCALIZATION
 
-                if(tempRwy.innerMarkerDist > -500)
-                GUI.Label(new Rect(190, 220, 60, 20), tempRwy.innerMarkerDist.ToString() + "m");
+                if (tempRwy.innerMarkerDist > -500)
+                    GUI.Label(new Rect(190, 220, 60, 20), tempRwy.innerMarkerDist.ToString() + "m"); // NO_LOCALIZATION
                 else
-                    GUI.Label(new Rect(190, 220, 60, 20), "  N/A");
+                    GUI.Label(new Rect(190, 220, 60, 20)," " + Localizer.Format("#LOC_NavInst_N_A"));
 
-                if(tempRwy.middleMarkerDist > -500)
-                GUI.Label(new Rect(260, 220, 60, 20), tempRwy.middleMarkerDist.ToString() +"m");
+                if (tempRwy.middleMarkerDist > -500)
+                    GUI.Label(new Rect(260, 220, 60, 20), tempRwy.middleMarkerDist.ToString() + "m"); // NO_LOCALIZATION
                 else
-                    GUI.Label(new Rect(260, 220, 60, 20), "  N/A");
+                    GUI.Label(new Rect(260, 220, 60, 20), " " + Localizer.Format("#LOC_NavInst_N_A"));
 
-                if(tempRwy.outerMarkerDist > -500)
-                GUI.Label(new Rect(330, 220, 60, 20), tempRwy.outerMarkerDist.ToString() + "m");
+                if (tempRwy.outerMarkerDist > -500)
+                    GUI.Label(new Rect(330, 220, 60, 20), tempRwy.outerMarkerDist.ToString() + "m"); // NO_LOCALIZATION
                 else
-                    GUI.Label(new Rect(330, 220, 60, 20), "  N/A");
+                    GUI.Label(new Rect(330, 220, 60, 20), " " + Localizer.Format("#LOC_NavInst_N_A"));
             }
 
             if (isNewRwy)
             {
-                if (GUI.Button(new Rect(170, 250, 200, 20), "Create Runway"))
+                if (GUI.Button(new Rect(170, 250, 200, 20), Localizer.Format("#LOC_NavInst_Create_Runway")))
                 {
                     //create the runway and add to database
                     tempRwy.body = FlightGlobals.currentMainBody.bodyName;
@@ -227,12 +227,13 @@ namespace NavInstruments.NavUtilGUI
             else
             {
                 //show delete button
-                if(GUI.Button(new Rect(170, 250, 200, 20),"Delete This Runway"))
+                if (GUI.Button(new Rect(170, 250, 200, 20), Localizer.Format("#LOC_NavInst_Delete_This_Runway")))
                 {
-					Rwy.allRunways.Remove(Rwy.customRunways[Rwy.cRwyIdx]);
-					if (Rwy.currentBodyRunways.Contains(Rwy.customRunways[Rwy.cRwyIdx])) {
-						Rwy.currentBodyRunways.Remove(Rwy.customRunways[Rwy.cRwyIdx]);
-					}
+                    Rwy.allRunways.Remove(Rwy.customRunways[Rwy.cRwyIdx]);
+                    if (Rwy.currentBodyRunways.Contains(Rwy.customRunways[Rwy.cRwyIdx]))
+                    {
+                        Rwy.currentBodyRunways.Remove(Rwy.customRunways[Rwy.cRwyIdx]);
+                    }
                     Rwy.customRunways.Remove(Rwy.customRunways[Rwy.cRwyIdx]);
 
                     WriteCustomRwys();

@@ -1,4 +1,5 @@
-﻿using System;
+using KSP.Localization;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using KSP;
@@ -34,8 +35,12 @@ namespace NavInstruments.KSFRPMHSI
             NavUtilLib.DisplayData.DrawHSI(screen, aspectRatio);
 
 
-            NavUtilLib.TextWriter.addTextToRT(screen, "Runway: " + NavUtilLib.GlobalVariables.FlightData.selectedRwy.ident, new Vector2(20, screen.height - 40), NavUtilLib.GlobalVariables.Materials.Instance.whiteFont, .64f);
-			NavUtilLib.TextWriter.addTextToRT(screen, "Glideslope: " + string.Format("{0:F1}", NavUtilLib.GlobalVariables.FlightData.selectedGlideSlope) + "°  Elevation: " + string.Format("{0:F0}", NavUtilLib.GlobalVariables.FlightData.selectedRwy.altMSL) + "m", new Vector2(20, screen.height - 64), NavUtilLib.GlobalVariables.Materials.Instance.whiteFont, .64f);
+            NavUtilLib.TextWriter.addTextToRT(screen, Localizer.Format("#LOC_NavInst_Runway_DUP1") + NavUtilLib.GlobalVariables.FlightData.selectedRwy.ident, new Vector2(20, screen.height - 40), NavUtilLib.GlobalVariables.Materials.Instance.whiteFont, .64f);
+			NavUtilLib.TextWriter.addTextToRT(screen, Localizer.Format("#LOC_NavInst_Glideslope") + 
+                string.Format("{0:F1}",  // NO_LOCALIZATION
+                NavUtilLib.GlobalVariables.FlightData.selectedGlideSlope) + Localizer.Format("#LOC_NavInst_Elevation_DUP1") + 
+                string.Format("{0:F0}", NavUtilLib.GlobalVariables.FlightData.selectedRwy.altMSL) + "m",  // NO_LOCALIZATION
+                new Vector2(20, screen.height - 64), NavUtilLib.GlobalVariables.Materials.Instance.whiteFont, .64f);
 
             NavUtilLib.TextWriter.addTextToRT(screen, NavUtilLib.Utils.numberFormatter((float)NavUtilLib.Utils.makeAngle0to360(FlightGlobals.ship_heading), true).ToString(), new Vector2(584, screen.height - 102), NavUtilLib.GlobalVariables.Materials.Instance.whiteFont, .64f);
             NavUtilLib.TextWriter.addTextToRT(screen, NavUtilLib.Utils.numberFormatter((float)NavUtilLib.Utils.makeAngle0to360(NavUtilLib.GlobalVariables.FlightData.bearing), true).ToString(), new Vector2(584, screen.height - 131), NavUtilLib.GlobalVariables.Materials.Instance.whiteFont, .64f);
@@ -54,8 +59,10 @@ namespace NavInstruments.KSFRPMHSI
 
             string output;
 
-            output = "  Runway: " + var.FlightData.selectedRwy.ident + Environment.NewLine +
-				"  Glideslope: " + string.Format("{0:F1}", var.FlightData.selectedGlideSlope) + "°"
+            output = " " + Localizer.Format("#LOC_NavInst_Runway_DUP2") + var.FlightData.selectedRwy.ident + Environment.NewLine +
+                " " + Localizer.Format("#LOC_NavInst_Glideslope_DUP1") +
+            #region NO_LOCALIZATION
+                string.Format("{0:F1}", var.FlightData.selectedGlideSlope) + "°"
             //"  GS Alt MSL: " + Utils.CalcSurfaceAltAtDME((float)dme,Rwy.body,(float)glideSlope,(float)Rwy.altMSL) +"m"
                 + Environment.NewLine +
                 "                                     [@x-4][@y7]" + NavUtilLib.Utils.numberFormatter(FlightGlobals.ship_heading, true) + Environment.NewLine +
@@ -74,8 +81,12 @@ namespace NavInstruments.KSFRPMHSI
                 + Environment.NewLine
                 + "   [@y16]" + NavUtilLib.Utils.numberFormatter((float)var.FlightData.dme / 1000f, false) + Environment.NewLine
                 + Environment.NewLine
-                + " [@x-5][@y8]               |    Runway    |" + Environment.NewLine
-                + " [@x-5]               | Prev | Next  |";
+            #endregion
+                + " [@x-5][@y8]               |    " +  // NO_LOCALIZATION
+                Localizer.Format("#LOC_NavInst_Runway") +
+                "|" + Environment.NewLine // NO_LOCALIZATION
+                + " [@x-5]               " + // NO_LOCALIZATION
+                Localizer.Format("#LOC_NavInst_Prev_Next");
 
             return output;
         }

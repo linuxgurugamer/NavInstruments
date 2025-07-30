@@ -1,9 +1,12 @@
 ChangeLog
 
-0.8.1 (unreleased)
+0.8.1 
 	Added saving position of the window
 	Added saving last status (open or closed)
 	Updated version file to use github for  new version info
+	Localized all strings in the mod
+	Some minor layout adjustments in the NavUtil Settings window
+	Replaced GUILayout.BeginHorizontal/GUILayout.EndHorizontal with ""using (new GUILayout.HorizontalScope())""
 
 0.8.0.9
 	Fixed issue with filepaths caused by new KSP launcher

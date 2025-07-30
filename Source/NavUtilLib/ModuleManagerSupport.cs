@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using KSP.Localization;
+using System.Collections.Generic;
 
 namespace KSP
 {
@@ -6,7 +7,7 @@ namespace KSP
 	{
 		public static IEnumerable<string> ModuleManagerAddToModList()
 		{
-			string[] r = {"NavInstruments"};
+			string[] r = {Localizer.Format("#LOC_NavInst_NavInstruments")};
 			return r;
 		}
 	}

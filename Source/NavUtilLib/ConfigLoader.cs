@@ -8,6 +8,7 @@ namespace NavInstruments.NavUtilLib
 {
     public static class ConfigLoader
     {
+        #region NO_LOCALIZATION
         static List<string> runways = new List<string>()
         {
             "defaultRunways.cfg",
@@ -218,3 +219,4 @@ namespace NavInstruments.NavUtilLib
     }
 }
 
+#endregion

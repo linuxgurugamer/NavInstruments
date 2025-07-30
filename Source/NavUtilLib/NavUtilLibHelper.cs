@@ -1,5 +1,6 @@
-﻿//NavUtilities by kujuman, © 2014. All Rights Reserved.
+//NavUtilities by kujuman, © 2014. All Rights Reserved.
 
+using KSP.Localization;
 using ClickThroughFix;
 using ToolbarControl_NS;
 using UnityEngine;
@@ -159,7 +160,7 @@ namespace NavInstruments.NavUtilLib
 
                 Log.Info("OnDraw, windowPosiion: " + windowPosition);
                 var previousRect = windowPosition;
-                windowPosition = ClickThruBlocker.GUIWindow(-471466245, windowPosition, OnWindow, "Horizontal Situation Indicator");
+                windowPosition = ClickThruBlocker.GUIWindow(-471466245, windowPosition, OnWindow, Localizer.Format("#LOC_NavInst_Horizontal_Situation_Indi"));
                 
                 Log.Info("previousRect: " + previousRect + ", windowPosition: " + windowPosition + ", comparision: " + (previousRect == windowPosition));
 
@@ -189,9 +190,11 @@ namespace NavInstruments.NavUtilLib
             //write text to screen
             //write runway info
 
-            string runwayText = (var.FlightData.isINSMode() ? "INS" : "Runway") + ": " + var.FlightData.selectedRwy.ident;
-            string glideslopeText = var.FlightData.isINSMode() ? "" : "Glideslope: " + string.Format("{0:F1}", var.FlightData.selectedGlideSlope) + "°  ";
-            string elevationText = (var.FlightData.isINSMode() ? "Alt MSL" : "Elevation") + ": " + string.Format("{0:F0}", var.FlightData.selectedRwy.altMSL) + "m";
+            string runwayText = (var.FlightData.isINSMode() ? Localizer.Format("#LOC_NavInst_INS") : Localizer.Format("#LOC_NavInst_Runway")) + ": " + var.FlightData.selectedRwy.ident;
+            string glideslopeText = var.FlightData.isINSMode() ? "" : Localizer.Format("#LOC_NavInst_Glideslope") + 
+                string.Format("{0:F1}", var.FlightData.selectedGlideSlope) + "°  "; // NO_LOCALIZATION
+            string elevationText = (var.FlightData.isINSMode() ? Localizer.Format("#LOC_NavInst_Alt_MSL") : Localizer.Format("#LOC_NavInst_Elevation")) + ": " + 
+                string.Format("{0:F0}", var.FlightData.selectedRwy.altMSL) + "m"; // NO_LOCALIZATION
 
             runwayText = (rwyHover ? "→" : " ") + runwayText;
             glideslopeText = (gsHover ? "→" : " ") + glideslopeText;
@@ -205,7 +208,7 @@ namespace NavInstruments.NavUtilLib
             NavUtilLib.TextWriter.addTextToRT(screen, NavUtilLib.Utils.numberFormatter((float)var.FlightData.dme / 1000, false).ToString(), new Vector2(45, screen.height - 563), var.Materials.Instance.whiteFont, .64f);
 
             if (closeHover)
-                NavUtilLib.TextWriter.addTextToRT(screen, "    Close HSI", new Vector2(340, 15), var.Materials.Instance.whiteFont, .64f);
+                NavUtilLib.TextWriter.addTextToRT(screen, "   " + Localizer.Format("#LOC_NavInst_Close_HSI"), new Vector2(340, 15), var.Materials.Instance.whiteFont, .64f);
 
             RenderTexture.active = pt;
         }
@@ -233,19 +236,19 @@ namespace NavInstruments.NavUtilLib
                 300 * var.Settings.hsiGUIscale,
                 50 * var.Settings.hsiGUIscale);
 
-            if (GUI.Button(closeBtn, new GUIContent("CloseBtn", "closeOn")))
+            if (GUI.Button(closeBtn, new GUIContent(Localizer.Format("#LOC_NavInst_CloseBtn"), Localizer.Format("#LOC_NavInst_closeOn"))))
             {
                 Log.Debug("CloseHSI");
                 toolbarControl.SetFalse(true);
             }
 
-            if (GUI.tooltip == "closeOn")
+            if (GUI.tooltip == Localizer.Format("#LOC_NavInst_closeOn"))
                 closeHover = true;
             else
                 closeHover = false;
 
 
-            if (GUI.Button(rwyBtn, new GUIContent("Next Runway", "rwyOn")) && !var.FlightData.isINSMode()) //doesn't let runway to be switched in INS mode
+            if (GUI.Button(rwyBtn, new GUIContent(Localizer.Format("#LOC_NavInst_Next_Runway"), Localizer.Format("#LOC_NavInst_rwyOn"))) && !var.FlightData.isINSMode()) //doesn't let runway to be switched in INS mode
             {
                 if (Event.current.alt)
                 {
@@ -268,17 +271,17 @@ namespace NavInstruments.NavUtilLib
                     } while (NavUtilLib.Utils.TooFarAway(var.FlightData.currentBodyRunways[var.FlightData.rwyIdx]) &&
                                 curIdx != var.FlightData.rwyIdx);
                     if (curIdx == var.FlightData.rwyIdx)
-                        ScreenMessages.PostScreenMessage("No runway within visible distance", 5f, ScreenMessageStyle.UPPER_CENTER);
+                        ScreenMessages.PostScreenMessage(Localizer.Format("#LOC_NavInst_No_runway_within_visible_"), 5f, ScreenMessageStyle.UPPER_CENTER);
                 }
             }
 
-            if (GUI.tooltip == "rwyOn")
+            if (GUI.tooltip == Localizer.Format("#LOC_NavInst_rwyOn"))
                 rwyHover = true;
             else
                 rwyHover = false;
 
 
-            if (GUI.Button(gsBtn, new GUIContent("Next G/S", "gsOn")))
+            if (GUI.Button(gsBtn, new GUIContent(Localizer.Format("#LOC_NavInst_Next_G_S"), Localizer.Format("#LOC_NavInst_gsOn"))))
             {
                 if (Event.current.button == 0)
                 {
@@ -292,7 +295,7 @@ namespace NavInstruments.NavUtilLib
                 var.FlightData.gsIdx = NavUtilLib.Utils.indexChecker(var.FlightData.gsIdx, var.FlightData.gsList.Count - 1, 0);
             }
 
-            if (GUI.tooltip == "gsOn")
+            if (GUI.tooltip == Localizer.Format("#LOC_NavInst_gsOn"))
                 gsHover = true;
             else
                 gsHover = false;
@@ -323,6 +326,8 @@ namespace NavInstruments.NavUtilLib
             ConfigLoader.LoadSettings();
             Log.Info("NavutilLibHelper.Awake.hsiState: " + GlobalVariables.Settings.hsiState);
 
+            #region NO_LOCALIZATION
+
             if (toolbarControl == null)
             {
                 toolbarControl = gameObject.AddComponent<ToolbarControl>();
@@ -341,6 +346,8 @@ namespace NavInstruments.NavUtilLib
                     );
                 toolbarControl.AddLeftRightClickCallbacks(onAppLaunchToggle, SettingsGUI.startSettingsGUI);
             }
+            #endregion
+
             GameEvents.onGUIApplicationLauncherUnreadifying.Add(onDestroy);
             GameEvents.onGameSceneLoadRequested.Add(onDestroy);
 

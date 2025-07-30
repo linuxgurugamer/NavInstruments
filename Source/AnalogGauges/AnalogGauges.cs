@@ -3,6 +3,7 @@ using UnityEngine;
 using NavInstruments.NavUtilLib;
 using static NavUtilLib.RegisterToolbar;
 
+#region NO_LOCALIZATION
 namespace NavInstruments.NavUtilLib.Analog
 {
     public class AnalogHSI : InternalModule
@@ -317,3 +318,5 @@ namespace NavInstruments.NavUtilLib.Analog
 
     }
 }
+
+#endregion

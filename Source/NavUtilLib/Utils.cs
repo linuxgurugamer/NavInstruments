@@ -301,7 +301,7 @@ namespace NavInstruments.NavUtilLib
             output = hundreds.ToString() + tens.ToString() + ones.ToString();
 
             if (numToDisplay > 999.5)
-                output = "999";
+                output = "999"; // NO_LOCALIZATION
 
 
             return output;

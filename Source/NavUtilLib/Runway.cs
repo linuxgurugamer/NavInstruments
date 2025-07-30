@@ -1,6 +1,9 @@
 ﻿//NavUtilities by kujuman, © 2014. All Rights Reserved.
+using KSP.Localization;
 
 using System;
+
+#region NO_LOCALIZATION
 
 namespace NavInstruments.NavUtilLib
 {
@@ -68,7 +71,7 @@ namespace NavInstruments.NavUtilLib
         
         public static Runway createFrom(ConfigNode node)
         {
-            string rwy_ident = node.GetValue("ident");
+            string rwy_ident = Localizer.Format(node.GetValue("ident"));
             string customValue = node.GetValue("custom");
 
             Runway runway = new Runway
@@ -122,3 +125,4 @@ namespace NavInstruments.NavUtilLib
 #endif
     }
 }
+#endregion
