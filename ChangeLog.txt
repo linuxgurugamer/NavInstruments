@@ -1,5 +1,8 @@
 ChangeLog
 
+0.8.1.1
+	Updated name of DLL for better CKAN compatibility
+
 0.8.1 
 	Added saving position of the window
 	Added saving last status (open or closed)
